@@ -33,6 +33,11 @@
        <string>STUNNED</string>
       </property>
      </item>
+     <item>
+      <property name="text">
+       <string>HEALTH_EFFECT</string>
+      </property>
+     </item>
     </widget>
    </item>
    <item>

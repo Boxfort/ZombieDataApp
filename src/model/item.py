@@ -8,3 +8,4 @@ class Item(object):
         self.icon_slug = ""
         self.spawn_rate = 0
         self.data = {}
+        self.effects = []
