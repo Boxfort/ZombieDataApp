@@ -56,9 +56,9 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-226</y>
+         <y>-212</y>
          <width>485</width>
-         <height>760</height>
+         <height>769</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -200,7 +200,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="label_8">
+         <widget class="QLabel" name="label_damage">
           <property name="text">
            <string>Damage</string>
           </property>
@@ -210,7 +210,7 @@
          <widget class="QSpinBox" name="spinner_item_damage"/>
         </item>
         <item>
-         <widget class="QLabel" name="label_9">
+         <widget class="QLabel" name="label_durability">
           <property name="text">
            <string>Durability</string>
           </property>
@@ -220,7 +220,7 @@
          <widget class="QSpinBox" name="spinner_item_durability"/>
         </item>
         <item>
-         <widget class="QLabel" name="label_11">
+         <widget class="QLabel" name="label_ammo">
           <property name="text">
            <string>Ammo</string>
           </property>
@@ -248,6 +248,13 @@
             <string>SHOTGUN</string>
            </property>
           </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="line_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
          </widget>
         </item>
         <item>
