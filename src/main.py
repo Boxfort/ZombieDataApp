@@ -27,6 +27,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ZombieData):
         self.actionSave.triggered.connect(self.on_save_action_pressed)
         self.actionLoad.triggered.connect(self.on_load_action_pressed)
         self.button_item_add_effect.clicked.connect(self.on_item_add_effect_pressed)
+        # Create an item
+        self.on_new_item_pressed()
 
     def on_save_action_pressed(self):
         print("Saving...")
@@ -65,6 +67,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ZombieData):
     def on_delete_item_pressed(self):
         if self.list_items.currentRow() == -1:
             print("No items")
+            return
+        if self.list_items.count() <= 1:
+            print("Don't delete last item")
             return
 
         selected_idx = self.list_items.currentRow()
