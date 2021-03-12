@@ -30,7 +30,7 @@
      <attribute name="title">
       <string>Items</string>
      </attribute>
-     <widget class="QListWidget" name="listWidget">
+     <widget class="QListWidget" name="list_items">
       <property name="geometry">
        <rect>
         <x>530</x>
@@ -56,7 +56,7 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
+         <y>-226</y>
          <width>485</width>
          <height>760</height>
         </rect>
@@ -70,7 +70,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="name_text"/>
+         <widget class="QLineEdit" name="text_item_name"/>
         </item>
         <item>
          <widget class="QLabel" name="label_2">
@@ -80,7 +80,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QTextEdit" name="description_text">
+         <widget class="QTextEdit" name="text_item_description">
           <property name="maximumSize">
            <size>
             <width>16777215</width>
@@ -97,7 +97,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="type_combo">
+         <widget class="QComboBox" name="combo_item_type">
           <item>
            <property name="text">
             <string>WEAPON</string>
@@ -123,7 +123,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="value_spin"/>
+         <widget class="QSpinBox" name="spinner_item_value"/>
         </item>
         <item>
          <widget class="QLabel" name="label_3">
@@ -133,7 +133,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit_3">
+         <widget class="QLineEdit" name="text_item_slug">
           <property name="placeholderText">
            <string>icon_itemname</string>
           </property>
@@ -207,7 +207,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="damage_spin"/>
+         <widget class="QSpinBox" name="spinner_item_damage"/>
         </item>
         <item>
          <widget class="QLabel" name="label_9">
@@ -217,7 +217,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="durability_spin"/>
+         <widget class="QSpinBox" name="spinner_item_durability"/>
         </item>
         <item>
          <widget class="QLabel" name="label_11">
@@ -227,7 +227,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="ammo_combo">
+         <widget class="QComboBox" name="combo_item_ammo">
           <item>
            <property name="text">
             <string>NONE</string>
@@ -263,7 +263,7 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QListView" name="effects_list"/>
+           <widget class="QListView" name="list_item_effects"/>
           </item>
           <item>
            <layout class="QVBoxLayout" name="verticalLayout">
@@ -271,7 +271,7 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QToolButton" name="effects_add">
+             <widget class="QToolButton" name="button_item_add_effect">
               <property name="minimumSize">
                <size>
                 <width>25</width>
@@ -284,7 +284,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QToolButton" name="effects_remove">
+             <widget class="QToolButton" name="button_item_delete_effect">
               <property name="minimumSize">
                <size>
                 <width>25</width>
@@ -297,7 +297,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QToolButton" name="effects_edit">
+             <widget class="QToolButton" name="button_item_edit_effect">
               <property name="text">
                <string>...</string>
               </property>
@@ -310,7 +310,7 @@
        </layout>
       </widget>
      </widget>
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="button_new">
       <property name="geometry">
        <rect>
         <x>700</x>
@@ -323,7 +323,7 @@
        <string>New</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="pushButton_2">
+     <widget class="QPushButton" name="button_delete">
       <property name="geometry">
        <rect>
         <x>610</x>
