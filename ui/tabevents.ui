@@ -30,6 +30,20 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_5">
        <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>ID</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="spinner_event_id">
+         <property name="maximum">
+          <number>999</number>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QLabel" name="label_11">
          <property name="text">
           <string>Name</string>
@@ -47,7 +61,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinner_event_chance"/>
+        <widget class="QSpinBox" name="spinner_event_chance">
+         <property name="maximum">
+          <number>100</number>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QLabel" name="label_9">
