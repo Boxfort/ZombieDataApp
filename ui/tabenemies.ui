@@ -24,8 +24,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>639</width>
-        <height>617</height>
+        <width>653</width>
+        <height>601</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -37,17 +37,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit"/>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_17">
-         <property name="text">
-          <string>Sprite Slug</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="lineEdit_2"/>
+        <widget class="QLineEdit" name="text_enemy_name"/>
        </item>
        <item>
         <widget class="QLabel" name="label_19">
@@ -57,7 +47,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinBox"/>
+        <widget class="QSpinBox" name="spinner_enemy_health"/>
        </item>
        <item>
         <widget class="QLabel" name="label_20">
@@ -67,7 +57,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinBox_2"/>
+        <widget class="QSpinBox" name="spinner_enemy_attack"/>
        </item>
        <item>
         <widget class="QLabel" name="label_21">
@@ -77,7 +67,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinBox_3"/>
+        <widget class="QSpinBox" name="spinner_enemy_defence"/>
        </item>
        <item>
         <widget class="QLabel" name="label_22">
@@ -87,7 +77,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinBox_4">
+        <widget class="QSpinBox" name="spinner_enemy_melee_acc">
          <property name="maximum">
           <number>10</number>
          </property>
@@ -101,7 +91,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinBox_5">
+        <widget class="QSpinBox" name="spinner_enemy_ranged_acc">
          <property name="maximum">
           <number>10</number>
          </property>
@@ -115,7 +105,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinBox_6">
+        <widget class="QSpinBox" name="spimner_enemy_speed">
          <property name="maximum">
           <number>10</number>
          </property>
@@ -129,7 +119,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinBox_7"/>
+        <widget class="QSpinBox" name="spinner_enemy_spawn_rate"/>
        </item>
        <item>
         <widget class="QLabel" name="label_26">
@@ -194,7 +184,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QListView" name="listView"/>
+      <widget class="QListView" name="list_enemies"/>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_8">
@@ -202,9 +192,9 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="button_enemy_delete">
          <property name="text">
-          <string>PushButton</string>
+          <string>Delete</string>
          </property>
         </widget>
        </item>
@@ -222,9 +212,9 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="button_enemy_new">
          <property name="text">
-          <string>PushButton</string>
+          <string>New</string>
          </property>
         </widget>
        </item>

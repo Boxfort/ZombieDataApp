@@ -22,7 +22,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QComboBox" name="comboBox">
+    <widget class="QComboBox" name="combo_action">
      <item>
       <property name="text">
        <string>ENEMY_ENCOUNTER</string>
@@ -48,10 +48,10 @@
     </widget>
    </item>
    <item>
-    <widget class="QSpinBox" name="spinBox"/>
+    <widget class="QSpinBox" name="spinner_chance"/>
    </item>
    <item>
-    <widget class="QLabel" name="label_3">
+    <widget class="QLabel" name="label_tags">
      <property name="text">
       <string>Tags</string>
      </property>
@@ -104,14 +104,14 @@
     </layout>
    </item>
    <item>
-    <widget class="QLabel" name="label_4">
+    <widget class="QLabel" name="label_eventid">
      <property name="text">
       <string>Event ID</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QSpinBox" name="spinBox_2"/>
+    <widget class="QSpinBox" name="spinner_eventid"/>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
