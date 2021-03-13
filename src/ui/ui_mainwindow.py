@@ -15,6 +15,9 @@ class Ui_ZombieData(object):
     def setupUi(self, ZombieData):
         ZombieData.setObjectName("ZombieData")
         ZombieData.resize(839, 683)
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("ui/../src/icon.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        ZombieData.setWindowIcon(icon)
         self.centralwidget = QtWidgets.QWidget(ZombieData)
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout_9 = QtWidgets.QVBoxLayout(self.centralwidget)
