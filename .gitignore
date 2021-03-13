@@ -1,5 +1,6 @@
 build/
 dist/
+__pycache__/
 src/dist/
 src/__pycache__/
 src/ui/__pycache__/
