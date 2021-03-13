@@ -40,7 +40,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ZombieData):
         self.item_tab.save()
 
     def on_load_action_pressed(self):
-        print("Loading!")
+        self.item_tab.load()
 
 
 app = QtWidgets.QApplication(sys.argv)

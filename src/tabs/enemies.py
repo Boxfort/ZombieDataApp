@@ -49,4 +49,11 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
         return self.enemies[selected_idx]
 
     def set_enemy_fields(self, enemy):
-        pass
+        self.text_enemy_name
+        self.spinner_enemy_attack
+        self.spinner_enemy_defence
+        self.spinner_enemy_health
+        self.spinner_enemy_melee_acc
+        self.spinner_enemy_ranged_acc
+        self.spinner_enemy_spawn_rate
+        self.spinner_enemy_ranged_acc

@@ -39,6 +39,7 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.spinner_item_damage.valueChanged.connect(self.on_item_damage_changed)
         self.spinner_item_defense.valueChanged.connect(self.on_item_defense_changed)
         self.combo_item_ammo.currentTextChanged.connect(self.on_item_ammo_changed)
+        self.combo_item_icon_slug.currentTextChanged.connect(self.on_item_slug_changed)
         self.text_item_combat_description.textChanged.connect(self.on_item_combat_description_changed)
         self.check_item_offensive.stateChanged.connect(self.on_item_offensive_changed)
         for check in self.tag_checks:
@@ -92,6 +93,10 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
     def on_item_ammo_changed(self):
         item_ammo = self.combo_item_ammo.currentText()
         self.get_selected_item().data["ammo_type"] = item_ammo
+
+    def on_item_slug_changed(self):
+        item_slug = self.combo_item_icon_slug.currentText()
+        self.get_selected_item().icon_slug = item_slug
 
     def on_item_combat_description_changed(self):
         item_combat_description = self.text_item_combat_description.toPlainText()
@@ -168,6 +173,7 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.text_item_name.setText(item.name)
         self.text_item_description.setText(item.description)
         self.set_combo(self.combo_item_type, item.type)
+        self.set_combo(self.combo_item_icon_slug, item.icon_slug)
         self.set_combo(self.combo_item_ammo, item.data.get("ammo_type", "NONE"))
         self.spinner_item_value.setValue(item.value)
         self.spinner_item_damage.setValue(item.data.get("damage", 0))
@@ -215,10 +221,48 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
                 item.data["offensive"] = item.data.get("offensive", False)
                 item.data["combat_description"] = item.data.get("combat_description", "")
 
+    def load(self):
+        filename = self.get_load_filename()
+        if not filename:
+            return
+
+        data = {}
+        with open(filename) as json_file:
+            data = json.load(json_file)
+
+        items = []
+        for item_data in data.values():
+            item = Item()
+            item.name = item_data["name"]
+            item.spawn_rate = item_data["spawn_rate"]
+            item.tags = item_data["tags"]
+            item.value = item_data["value"]
+            item.type = item_data["type"]
+            item.data = item_data["data"]
+            items.append(item)
+
+        if self.items:
+            self.items = items
+            self.list_items.clear()
+            for item in self.items:
+                self.list_items.addItem(item.name)
+                self.list_items.setCurrentRow(self.list_items.count()-1)
+                self.list_items.item(self.list_items.count()-1).setSelected(True)
+                self.set_item_fields(item)
+
+
+    def get_load_filename(self):
+        filename, _ = QtWidgets.QFileDialog.getOpenFileName(
+            self,
+            "Load Items...",
+            os.path.expanduser("~")
+        )
+        return filename
+
     def get_save_filename(self):
         filename, a = QtWidgets.QFileDialog.getSaveFileName(
             self,
-            "Save items",
+            "Save Items...",
             os.path.expanduser("~")
         )
         print(a)

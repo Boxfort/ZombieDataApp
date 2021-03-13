@@ -25,7 +25,7 @@
         <x>0</x>
         <y>0</y>
         <width>722</width>
-        <height>970</height>
+        <height>1024</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -38,6 +38,52 @@
        </item>
        <item>
         <widget class="QLineEdit" name="text_item_name"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Icon</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="combo_item_icon_slug">
+         <item>
+          <property name="text">
+           <string>icon_gun</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>icon_melee</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>icon_clothing</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>icon_food</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>icon_grenade</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>icon_petrol</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>icon_healing</string>
+          </property>
+         </item>
+        </widget>
        </item>
        <item>
         <widget class="QLabel" name="label_2">
