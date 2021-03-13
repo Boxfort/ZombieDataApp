@@ -7,5 +7,6 @@ class Item(object):
         self.value = 0
         self.icon_slug = ""
         self.spawn_rate = 0
+        self.tags = []
         self.data = {}
         self.effects = []
