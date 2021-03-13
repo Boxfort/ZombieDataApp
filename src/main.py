@@ -37,29 +37,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ZombieData):
             event.ignore()
 
     def on_save_action_pressed(self):
-        print("Saving...")
-        item_dict = {}
-        for (i, x) in enumerate(self.items):
-            x.id = i
-            item_dict[i] = x
-        directory = self.get_save_directory()
-        if directory:
-            with open(os.path.join(directory, 'items.txt'), 'w') as outfile:
-                json.dump(item_dict, outfile, default=lambda o: o.__dict__, indent=4)
-        else: 
-            print("Directory not selected.")
+        self.item_tab.save()
 
     def on_load_action_pressed(self):
         print("Loading!")
-
-    def get_save_directory(self):
-        directory = QFileDialog.getExistingDirectory(
-            self,
-            "Pick save directory.",
-            os.path.expanduser("~"),
-            QFileDialog.ShowDirsOnly
-        )
-        return directory
 
 
 app = QtWidgets.QApplication(sys.argv)

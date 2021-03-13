@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 
 from ui.ui_tabitems import Ui_ItemTabContents
 from PyQt5 import QtCore, QtWidgets, uic 
@@ -89,7 +90,8 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.get_selected_item().data["combat_description"] = item_combat_description
 
     def on_item_offensive_changed(self):
-        pass
+        item_offensive = self.check_item_offensive.isChecked()
+        self.get_selected_item().data["offensive"] = item_offensive
 
     def on_new_item_pressed(self):
         item = Item()
@@ -170,3 +172,40 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
     def get_selected_item(self):
         selected_idx = self.list_items.currentRow()
         return self.items[selected_idx]
+
+    def save(self):
+        print("Saving Items...")
+        item_dict = {}
+        self.fill_missing_item_data()
+        for (i, x) in enumerate(self.items):
+            x.id = i
+            item_dict[i] = x
+        filename= self.get_save_filename()
+        if filename:
+            with open(filename, 'w+') as outfile:
+                json.dump(item_dict, outfile, default=lambda o: o.__dict__, indent=4)
+        else: 
+            print("Directory not selected.")
+
+    def fill_missing_item_data(self):
+        for item in self.items:
+            if item.type != "CONSUMABLE":
+                item.data["max_durability"] = item.data.get("max_durability", 0)
+            if item.type == "WEAPON":
+                item.data["damage"] = item.data.get("damage", 0)
+                item.data["ammo_type"] = item.data.get("ammo_type", "NONE")
+            elif item.type == "ARMOUR":
+                item.data["defence"] = item.data.get("defence", 0)
+            elif item.type == "CONSUMABLE":
+                item.data["offensive"] = item.data.get("offensive", False)
+                item.data["combat_description"] = item.data.get("combat_description", "")
+
+    def get_save_filename(self):
+        filename, a = QtWidgets.QFileDialog.getSaveFileName(
+            self,
+            "Save items",
+            os.path.expanduser("~")
+        )
+        print(a)
+        return filename
+
