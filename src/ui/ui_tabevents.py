@@ -107,7 +107,7 @@ class Ui_EventTabContents(object):
         self.verticalLayout_4 = QtWidgets.QVBoxLayout()
         self.verticalLayout_4.setContentsMargins(0, -1, -1, -1)
         self.verticalLayout_4.setObjectName("verticalLayout_4")
-        self.list_events = QtWidgets.QListView(EventTabContents)
+        self.list_events = QtWidgets.QListWidget(EventTabContents)
         self.list_events.setObjectName("list_events")
         self.verticalLayout_4.addWidget(self.list_events)
         self.horizontalLayout_5 = QtWidgets.QHBoxLayout()

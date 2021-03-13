@@ -212,7 +212,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QListView" name="list_events"/>
+      <widget class="QListWidget" name="list_events"/>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_5">

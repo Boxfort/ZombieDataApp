@@ -184,7 +184,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QListView" name="list_enemies"/>
+      <widget class="QListWidget" name="list_enemies"/>
      </item>
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_8">

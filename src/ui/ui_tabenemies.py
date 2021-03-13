@@ -105,7 +105,7 @@ class Ui_EnemyTabContents(object):
         self.verticalLayout_7 = QtWidgets.QVBoxLayout()
         self.verticalLayout_7.setContentsMargins(-1, -1, 0, -1)
         self.verticalLayout_7.setObjectName("verticalLayout_7")
-        self.list_enemies = QtWidgets.QListView(EnemyTabContents)
+        self.list_enemies = QtWidgets.QListWidget(EnemyTabContents)
         self.list_enemies.setObjectName("list_enemies")
         self.verticalLayout_7.addWidget(self.list_enemies)
         self.horizontalLayout_8 = QtWidgets.QHBoxLayout()
