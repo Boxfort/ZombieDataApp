@@ -60,7 +60,7 @@ class Ui_ZombieData(object):
         self.menubar.addAction(self.menuFile.menuAction())
 
         self.retranslateUi(ZombieData)
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(ZombieData)
 
     def retranslateUi(self, ZombieData):

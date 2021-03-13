@@ -24,6 +24,18 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ZombieData):
         self.actionSave.triggered.connect(self.on_save_action_pressed)
         self.actionLoad.triggered.connect(self.on_load_action_pressed)
 
+    def closeEvent(self, event):
+        # TODO: Check for unsaved data
+        return
+        print("event")
+        reply = QtWidgets.QMessageBox.question(self, 'Unsaved Data',
+            "There is unsaved data!\n\nAre you sure to quit?", QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No)
+
+        if reply == QtWidgets.QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
+
     def on_save_action_pressed(self):
         print("Saving...")
         item_dict = {}

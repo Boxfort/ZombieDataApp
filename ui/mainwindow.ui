@@ -18,25 +18,25 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab_items">
        <attribute name="title">
         <string>Items</string>
        </attribute>
-       <layout class="QHBoxLayout" name="horizontalLayout_3" stretch=""/>
+       <layout class="QHBoxLayout" name="horizontalLayout_3"/>
       </widget>
       <widget class="QWidget" name="tab_enemies">
        <attribute name="title">
         <string>Enemies</string>
        </attribute>
-       <layout class="QHBoxLayout" name="horizontalLayout_7" stretch=""/>
+       <layout class="QHBoxLayout" name="horizontalLayout_7"/>
       </widget>
       <widget class="QWidget" name="tab_events">
        <attribute name="title">
         <string>Events</string>
        </attribute>
-       <layout class="QHBoxLayout" name="horizontalLayout_2" stretch=""/>
+       <layout class="QHBoxLayout" name="horizontalLayout_2"/>
       </widget>
      </widget>
     </item>
