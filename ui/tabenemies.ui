@@ -131,44 +131,30 @@
        <item>
         <layout class="QGridLayout" name="gridLayout_2">
          <item row="0" column="0">
-          <widget class="QRadioButton" name="radioButton_9">
+          <widget class="QCheckBox" name="check_tag_common">
            <property name="text">
             <string>COMMON</string>
            </property>
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QRadioButton" name="radioButton_11">
+          <widget class="QCheckBox" name="check_tag_millitary">
            <property name="text">
             <string>MILLITARY</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="1">
-          <widget class="QRadioButton" name="radioButton_12">
-           <property name="text">
-            <string>POLICE</string>
-           </property>
-          </widget>
-         </item>
          <item row="0" column="1">
-          <widget class="QRadioButton" name="radioButton_10">
+          <widget class="QCheckBox" name="check_tag_medical">
            <property name="text">
             <string>MEDICAL</string>
            </property>
           </widget>
          </item>
-         <item row="2" column="0">
-          <widget class="QRadioButton" name="radioButton_13">
+         <item row="1" column="1">
+          <widget class="QCheckBox" name="check_tag_police">
            <property name="text">
-            <string>RadioButton</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QRadioButton" name="radioButton_14">
-           <property name="text">
-            <string>RadioButton</string>
+            <string>POLICE</string>
            </property>
           </widget>
          </item>

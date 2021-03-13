@@ -43,7 +43,7 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.text_item_combat_description.textChanged.connect(self.on_item_combat_description_changed)
         self.check_item_offensive.stateChanged.connect(self.on_item_offensive_changed)
         for check in self.tag_checks:
-            check.stateChanged.connect(self.on_tag_changed)
+            check.clicked.connect(self.on_tag_changed)
         # Init
         self.on_new_item_pressed()
         self.on_combo_item_type_changed()
@@ -180,6 +180,11 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.spinner_item_defense.setValue(item.data.get("defence", 0))
         self.spinner_item_durability.setValue(item.data.get("max_durability", 0))
         self.table_effects.setRowCount(0)
+        for check in self.tag_checks:
+            if check.text() in item.tags:
+                check.setChecked(True)
+            else:
+                check.setChecked(False)
         for effect in item.data.get("effects", []):
             self.add_item_effect(effect.status_effect, effect.value, effect.duration)
         # Update type state
@@ -241,7 +246,7 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
             item.data = item_data["data"]
             items.append(item)
 
-        if self.items:
+        if items:
             self.items = items
             self.list_items.clear()
             for item in self.items:
@@ -263,7 +268,7 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         filename, a = QtWidgets.QFileDialog.getSaveFileName(
             self,
             "Save Items...",
-            os.path.expanduser("~")
+            os.path.join(os.path.expanduser("~"), "items.txt")
         )
         print(a)
         return filename
