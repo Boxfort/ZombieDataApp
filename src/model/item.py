@@ -9,4 +9,3 @@ class Item(object):
         self.spawn_rate = 0
         self.tags = []
         self.data = {}
-        self.effects = []

@@ -127,6 +127,16 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
             if effect_dialog.spinner_duration.isEnabled:
                 duration = effect_dialog.spinner_duration.value()
             self.add_item_effect(effect_type, value, duration)
+            # Create the data object
+            effect = Effect()
+            effect.status_effect = effect_type
+            effect.value = value
+            effect.duration = duration
+            # Add effect data to the item
+            item = self.get_selected_item()
+            if not item.data.get("effects", None):
+                item.data["effects"] = []
+            item.data["effects"].append(effect)      
     
     def add_item_effect(self, effect_type, value, duration):
         # Add to the table
@@ -136,24 +146,19 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.table_effects.setItem(rowCount, 1, QtWidgets.QTableWidgetItem(str(value)))
         if not duration == None:
             self.table_effects.setItem(rowCount, 2, QtWidgets.QTableWidgetItem(str(duration)))
-        # Create the data object
-        effect = Effect()
-        effect.status_effect = effect_type
-        effect.value = value
-        effect.duration = duration
-        # Add effect data to the item
-        item = self.get_selected_item()
-        item.effects.append(effect)      
 
     def set_item_fields(self, item):
         self.text_item_name.setText(item.name)
         self.text_item_description.setText(item.description)
         self.set_combo(self.combo_item_type, item.type)
-        self.set_combo(self.combo_item_ammo, item.ammo)
+        self.set_combo(self.combo_item_ammo, item.data.get("ammo_type", "NONE"))
         self.spinner_item_value.setValue(item.value)
         self.spinner_item_damage.setValue(item.data.get("damage", 0))
         self.spinner_item_defense.setValue(item.data.get("defence", 0))
         self.spinner_item_durability.setValue(item.data.get("max_durability", 0))
+        self.table_effects.setRowCount(0)
+        for effect in item.data.get("effects", []):
+            self.add_item_effect(effect.status_effect, effect.value, effect.duration)
         # Update type state
         self.on_combo_item_type_changed()
 
