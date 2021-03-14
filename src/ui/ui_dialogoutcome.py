@@ -61,6 +61,7 @@ class Ui_DialogOutcome(object):
         self.label_eventid.setObjectName("label_eventid")
         self.verticalLayout.addWidget(self.label_eventid)
         self.spinner_eventid = QtWidgets.QSpinBox(DialogOutcome)
+        self.spinner_eventid.setMaximum(99999999)
         self.spinner_eventid.setObjectName("spinner_eventid")
         self.verticalLayout.addWidget(self.spinner_eventid)
         self.buttonBox = QtWidgets.QDialogButtonBox(DialogOutcome)
