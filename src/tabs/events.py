@@ -32,6 +32,8 @@ class EventTab(QtWidgets.QWidget, Ui_EventTabContents):
         self.text_event_name.textChanged.connect(self.on_event_name_changed)
         self.text_event_text.textChanged.connect(self.on_event_text_changed)
         self.button_option_add.clicked.connect(self.on_new_option_clicked)
+        self.button_option_remove.clicked.connect(self.on_remove_option_clicked)
+        self.button_option_edit.clicked.connect(self.on_edit_option_clicked)
         for check in self.tag_checks:
             check.clicked.connect(self.on_tag_changed)
         # Init
@@ -104,8 +106,35 @@ class EventTab(QtWidgets.QWidget, Ui_EventTabContents):
     def on_new_option_clicked(self):
         option_dialog = DialogOption(self)
         if option_dialog.exec_():
-            pass
+            option = option_dialog.option
+            self.get_selected_event().options.append(option)
+            self.add_option(option)
 
+    def add_option(self, option):
+        # Add to the table
+        rowCount = self.table_event_options.rowCount()
+        self.table_event_options.insertRow(rowCount)
+        self.table_event_options.setItem(rowCount, 0, QtWidgets.QTableWidgetItem(option.text))
+        self.table_event_options.setItem(rowCount, 1, QtWidgets.QTableWidgetItem(', '.join(map(lambda x: x.action, option.outcomes))))
+
+    def on_remove_option_clicked(self):
+        idx = self.table_event_options.currentRow()
+        if idx != -1:
+            self.table_event_options.removeRow(idx)
+            self.get_selected_event().options.pop(idx)
+
+    def on_edit_option_clicked(self):
+        idx = self.table_event_options.currentRow()
+        if idx != -1:
+            selected_option = self.get_selected_event().options[idx]
+            option_dialog = DialogOption(self)
+            option_dialog.setWindowTitle("Edit Option")
+            option_dialog.set_option_fields(selected_option)
+            if option_dialog.exec_():
+                selected_option.text = option_dialog.option.text
+                selected_option.outcomes = option_dialog.option.outcomes
+                self.table_event_options.item(idx, 0).setText(selected_option.text)
+                self.table_event_options.item(idx, 1).setText(', '.join(map(lambda x: x.action, selected_option.outcomes))))
     
     def get_load_filename(self):
         filename, _ = QtWidgets.QFileDialog.getOpenFileName(

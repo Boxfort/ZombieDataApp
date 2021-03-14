@@ -183,6 +183,7 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         if idx != -1:
             selected_effect = self.get_selected_item().data["effects"][idx]
             effect_dialog = DialogEffect(self)
+            effect_dialog.setWindowTitle("Edit Effect")
             # Set fields to existing values
             self.set_combo(effect_dialog.combo_effect, selected_effect.status_effect)
             effect_dialog.spinner_value.setValue(selected_effect.value)

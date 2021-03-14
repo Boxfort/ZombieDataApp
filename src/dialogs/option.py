@@ -36,15 +36,47 @@ class DialogOption(QtWidgets.QDialog, Ui_DialogOption):
         self.table_outcomes.insertRow(rowCount)
         self.table_outcomes.setItem(rowCount, 0, QtWidgets.QTableWidgetItem(outcome.action))
         self.table_outcomes.setItem(rowCount, 1, QtWidgets.QTableWidgetItem(str(outcome.chance)))
-        self.table_outcomes.setItem(rowCount, 2, QtWidgets.QTableWidgetItem(outcome.text))
+        if outcome.action != "EVENT_TRIGGER":
+            if outcome.text:
+                self.table_outcomes.setItem(rowCount, 2, QtWidgets.QTableWidgetItem(outcome.text[0]))
+        else:
+            self.table_outcomes.setItem(rowCount, 2, QtWidgets.QTableWidgetItem("N/A"))
 
     def on_add_outcome_clicked(self):
         outcome_dialog = DialogOutcome(self)
         if outcome_dialog.exec_():
-            pass
+            outcome = outcome_dialog.outcome
+            # Add missing data
+            if outcome_dialog.spinner_eventid.isEnabled():
+                outcome.data["event_id"] = outcome.data.get("event_id", 0)
+            if outcome_dialog.label_tags.isEnabled():
+                outcome.data["tags"] = outcome.data.get("tags", [])
+            self.add_outcome(outcome)
+            self.option.outcomes.append(outcome)
+
 
     def on_delete_outcome_clicked(self):
-        pass
+        idx = self.table_outcomes.currentRow()
+        if idx != -1:
+            self.table_outcomes.removeRow(idx)
+            self.option.outcomes.pop(idx)
 
     def on_edit_outcome_clicked(self):
-        pass
+        idx = self.table_outcomes.currentRow()
+        if idx != -1:
+            outcome = self.option.outcomes[idx]
+            outcome_dialog = DialogOutcome(self)
+            outcome_dialog.setWindowTitle("Edit Event Outcome")
+            outcome_dialog.set_outcome_fields(outcome)
+            if outcome_dialog.exec_():
+                outcome.text = outcome_dialog.outcome.text
+                outcome.action = outcome_dialog.outcome.action
+                outcome.chance = outcome_dialog.outcome.chance
+                outcome.data = outcome_dialog.outcome.data
+                self.table_outcomes.item(idx, 0).setText(outcome.action)
+                self.table_outcomes.item(idx, 1).setText(str(outcome.chance))
+                if outcome.action != "EVENT_TRIGGER":
+                    if outcome.text:
+                        self.table_outcomes.item(idx, 2).setText(outcome.text[0])
+                else:
+                    self.table_outcomes.item(idx, 2).setText("N/A")
