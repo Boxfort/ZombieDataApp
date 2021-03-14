@@ -120,6 +120,8 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
 
     def save(self, save_as = False):
         print("Saving Enemies...")
+        for enemy in self.enemies:
+            enemy.sprite_slug = enemy.name.lower().replace(" ", "_")
 
         if save_as or not self.filename:
             filename = self.get_save_filename()
@@ -145,7 +147,7 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
             data = json.load(json_file)
 
         enemies = []
-        for enemy_data in data.values():
+        for enemy_data in data:
             enemy = Enemy()
             enemy.name = enemy_data["name"]
             enemy.sprite_slug = enemy_data["sprite_slug"]
@@ -157,7 +159,6 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
             enemy.speed = enemy_data["speed"]
             enemy.spawn_rate = enemy_data["spawn_rate"]
             enemy.tags = enemy_data["tags"]
-
 
         if enemies:
             self.enemies = enemies
@@ -180,7 +181,7 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
         filename, a = QtWidgets.QFileDialog.getSaveFileName(
             self,
             "Save Enemies...",
-            os.path.join(os.path.expanduser("~"), "enemies.txt")
+            os.path.join(os.path.expanduser("~"), "enemies.json")
         )
         print(a)
         return filename

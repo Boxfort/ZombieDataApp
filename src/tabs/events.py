@@ -177,7 +177,7 @@ class EventTab(QtWidgets.QWidget, Ui_EventTabContents):
             event = Event()
             event.id = event_data["id"]
             event.name = event_data["name"]
-            event.chance = event_data["chance"]
+            event.chance = event_data.get("chance", 0)
             event.text = event_data["text"]
             event.tags = event_data["tags"]
             for option_data in event_data["options"]:
@@ -185,7 +185,7 @@ class EventTab(QtWidgets.QWidget, Ui_EventTabContents):
                 option.text = option_data["text"]
                 for outcome_data in option_data["outcomes"]:
                     outcome = Outcome()
-                    outcome.text = outcome_data["text"]
+                    outcome.text = outcome_data.get("text", [])
                     outcome.action = outcome_data["action"]
                     outcome.chance = outcome_data["chance"]
                     outcome.data = outcome_data["data"]
@@ -214,7 +214,7 @@ class EventTab(QtWidgets.QWidget, Ui_EventTabContents):
         filename, a = QtWidgets.QFileDialog.getSaveFileName(
             self,
             "Save Events...",
-            os.path.join(os.path.expanduser("~"), "events.txt")
+            os.path.join(os.path.expanduser("~"), "events.json")
         )
         print(a)
         return filename

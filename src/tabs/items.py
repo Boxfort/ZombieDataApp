@@ -306,7 +306,7 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         filename, a = QtWidgets.QFileDialog.getSaveFileName(
             self,
             "Save Items...",
-            os.path.join(os.path.expanduser("~"), "items.txt")
+            os.path.join(os.path.expanduser("~"), "items.json")
         )
         print(a)
         return filename
