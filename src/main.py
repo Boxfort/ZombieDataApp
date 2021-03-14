@@ -32,7 +32,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ZombieData):
     def closeEvent(self, event):
         # TODO: Check for unsaved data
         return
-        print("event")
         reply = QtWidgets.QMessageBox.question(self, 'Unsaved Data',
             "There is unsaved data!\n\nAre you sure to quit?", QtWidgets.QMessageBox.Yes, QtWidgets.QMessageBox.No)
 

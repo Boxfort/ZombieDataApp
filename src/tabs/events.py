@@ -173,7 +173,6 @@ class EventTab(QtWidgets.QWidget, Ui_EventTabContents):
 
         events = []
         for event_data in data.values():
-            print(event_data)
             event = Event()
             event.id = event_data["id"]
             event.name = event_data["name"]
@@ -216,5 +215,4 @@ class EventTab(QtWidgets.QWidget, Ui_EventTabContents):
             "Save Events...",
             os.path.join(os.path.expanduser("~"), "events.json")
         )
-        print(a)
         return filename

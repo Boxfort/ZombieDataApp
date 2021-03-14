@@ -66,7 +66,6 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
         return self.enemies[selected_idx]
 
     def set_enemy_fields(self, enemy):
-        print(enemy.tags)
         self.text_enemy_name.setText(enemy.name)
         self.spinner_enemy_attack.setValue(enemy.attack)
         self.spinner_enemy_defence.setValue(enemy.defence)
@@ -110,7 +109,6 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
         self.get_selected_enemy().spawn_rate = enemy_spawn_rate
 
     def on_tag_changed(self):
-        print("tag changed")
         selected_tags = []
         for check in self.tag_checks:
             if check.isChecked():
@@ -153,9 +151,7 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
             data = json.load(json_file)
 
         enemies = []
-        print(data)
         for enemy_data in data.values():
-            print(enemy_data)
             enemy = Enemy()
             enemy.name = enemy_data["name"]
             enemy.sprite_slug = enemy_data["sprite_slug"]
@@ -192,5 +188,4 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
             "Save Enemies...",
             os.path.join(os.path.expanduser("~"), "enemies.json")
         )
-        print(a)
         return filename
