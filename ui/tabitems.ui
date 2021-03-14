@@ -126,6 +126,16 @@
            <string>CONSUMABLE</string>
           </property>
          </item>
+         <item>
+          <property name="text">
+           <string>FOOD</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>FUEL</string>
+          </property>
+         </item>
         </widget>
        </item>
        <item>
