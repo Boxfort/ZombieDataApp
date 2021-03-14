@@ -149,7 +149,6 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
             duration = None
             if effect_dialog.spinner_duration.isEnabled():
                 duration = effect_dialog.spinner_duration.value()
-            print(duration)
             self.add_item_effect(effect_type, value, duration)
             # Create the data object
             effect = Effect()
@@ -168,7 +167,6 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.table_effects.insertRow(rowCount)
         self.table_effects.setItem(rowCount, 0, QtWidgets.QTableWidgetItem(effect_type))
         self.table_effects.setItem(rowCount, 1, QtWidgets.QTableWidgetItem(str(value)))
-        print(duration)
         if duration != None:
             self.table_effects.setItem(rowCount, 2, QtWidgets.QTableWidgetItem(str(duration)))
         else:
