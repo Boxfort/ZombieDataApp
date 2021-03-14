@@ -33,8 +33,9 @@ jobs:
           zip -r ZombieDataApp.zip src/dist/windows
           
       - name: 'Upload Artifact'
+        if: github.ref == 'refs/heads/master'
         uses: actions/upload-artifact@v2
         with:
           name: Release
-          path: ZombieDataApp.zip
+          path: dist/ZombieData.exe
           retention-days: 5

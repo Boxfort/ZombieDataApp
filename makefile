@@ -1,13 +1,14 @@
-ui_files := $(wildcard ui/*.ui)
-
 .PHONY: ui
 
 ui:
-	for file in $(ui_files) ; do \
-		FILENAME=$(subst ui/,,$(patsubst %.ui,%.py,$(ui_files))) ; \
-		pyuic5 $$file -o src/ui/ui_$$FILENAME ; \
-		echo "Creating 'src/ui/ui_$$FILENAME'..." ; \
-	done
+	pyuic5 ui/mainwindow.ui -o src/ui/ui_mainwindow.py
+	pyuic5 ui/dialogeffect.ui -o src/ui/ui_dialogeffect.py
+	pyuic5 ui/dialogoption.ui -o src/ui/ui_dialogoption.py
+	pyuic5 ui/dialogoutcome.ui -o src/ui/ui_dialogoutcome.py
+	pyuic5 ui/tabitems.ui -o src/ui/ui_tabitems.py
+	pyuic5 ui/tabenemies.ui -o src/ui/ui_tabenemies.py
+	pyuic5 ui/tabevents.ui -o src/ui/ui_tabevents.py
+
 
 windows: 
 	docker run -v "$(PWD)/src:/src/" cdrx/pyinstaller-windows:python3
