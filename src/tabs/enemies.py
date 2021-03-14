@@ -123,6 +123,12 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
         for enemy in self.enemies:
             enemy.sprite_slug = enemy.name.lower().replace(" ", "_")
 
+        enemy_dict = {}
+        self.fill_missing_item_data()
+        for (i, x) in enumerate(self.enemies):
+            x.id = i
+            enemy_dict[i] = x
+
         if save_as or not self.filename:
             filename = self.get_save_filename()
             if filename:
@@ -130,7 +136,7 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
 
         if self.filename:
             with open(self.filename, 'w+') as outfile:
-                json.dump(self.enemies, outfile, default=lambda o: o.__dict__, indent=4)
+                json.dump(enemy_dict, outfile, default=lambda o: o.__dict__, indent=4)
         else: 
             print("Directory not selected.")
 
@@ -147,7 +153,9 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
             data = json.load(json_file)
 
         enemies = []
-        for enemy_data in data:
+        print(data)
+        for enemy_data in data.values():
+            print(enemy_data)
             enemy = Enemy()
             enemy.name = enemy_data["name"]
             enemy.sprite_slug = enemy_data["sprite_slug"]
@@ -159,6 +167,7 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
             enemy.speed = enemy_data["speed"]
             enemy.spawn_rate = enemy_data["spawn_rate"]
             enemy.tags = enemy_data["tags"]
+            enemies.append(enemy)
 
         if enemies:
             self.enemies = enemies

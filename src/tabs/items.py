@@ -308,6 +308,5 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
             "Save Items...",
             os.path.join(os.path.expanduser("~"), "items.json")
         )
-        print(a)
         return filename
 
