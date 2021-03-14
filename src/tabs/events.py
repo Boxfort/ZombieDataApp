@@ -95,6 +95,9 @@ class EventTab(QtWidgets.QWidget, Ui_EventTabContents):
                 check.setChecked(True)
             else:
                 check.setChecked(False)
+        self.table_event_options.setRowCount(0)
+        for option in self.get_selected_event().options:
+            self.add_option(option)
 
     def on_tag_changed(self):
         selected_tags = []
@@ -134,7 +137,7 @@ class EventTab(QtWidgets.QWidget, Ui_EventTabContents):
                 selected_option.text = option_dialog.option.text
                 selected_option.outcomes = option_dialog.option.outcomes
                 self.table_event_options.item(idx, 0).setText(selected_option.text)
-                self.table_event_options.item(idx, 1).setText(', '.join(map(lambda x: x.action, selected_option.outcomes))))
+                self.table_event_options.item(idx, 1).setText(', '.join(map(lambda x: x.action, selected_option.outcomes)))
     
     def get_load_filename(self):
         filename, _ = QtWidgets.QFileDialog.getOpenFileName(

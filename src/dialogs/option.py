@@ -26,6 +26,7 @@ class DialogOption(QtWidgets.QDialog, Ui_DialogOption):
         self.option.text = self.text_option_text.text()
 
     def set_option_fields(self, option):
+        self.option = option
         self.text_option_text.setText(option.text)
         self.table_outcomes.setRowCount(0)
         for outcome in option.outcomes:
@@ -39,6 +40,8 @@ class DialogOption(QtWidgets.QDialog, Ui_DialogOption):
         if outcome.action != "EVENT_TRIGGER":
             if outcome.text:
                 self.table_outcomes.setItem(rowCount, 2, QtWidgets.QTableWidgetItem(outcome.text[0]))
+            else:
+                self.table_outcomes.setItem(rowCount, 2, QtWidgets.QTableWidgetItem(""))
         else:
             self.table_outcomes.setItem(rowCount, 2, QtWidgets.QTableWidgetItem("N/A"))
 
