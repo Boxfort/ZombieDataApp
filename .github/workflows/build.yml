@@ -37,5 +37,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Release
-          path: dist/ZombieData.exe
+          path: src/dist/ZombieData.exe
           retention-days: 5
