@@ -160,10 +160,18 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
                 self.list_enemies.item(self.list_enemies.count()-1).setSelected(True)
                 self.set_enemy_fields(enemy)
 
+    def get_load_filename(self):
+        filename, _ = QtWidgets.QFileDialog.getOpenFileName(
+            self,
+            "Load Enemies...",
+            os.path.expanduser("~")
+        )
+        return filename
+
     def get_save_filename(self):
         filename, a = QtWidgets.QFileDialog.getSaveFileName(
             self,
-            "Save Items...",
+            "Save Enemies...",
             os.path.join(os.path.expanduser("~"), "enemies.txt")
         )
         print(a)

@@ -31,6 +31,8 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.button_delete.clicked.connect(self.on_delete_item_pressed)
         self.list_items.itemClicked.connect(self.on_item_list_pressed)
         self.button_item_add_effect.clicked.connect(self.on_item_add_effect_pressed)
+        self.button_item_delete_effect.clicked.connect(self.on_item_delete_effect_pressed)
+        self.button_item_edit_effect.clicked.connect(self.on_item_edit_effect_pressed)
         self.text_item_name.textChanged.connect(self.on_item_name_changed)
         self.text_item_description.textChanged.connect(self.on_item_description_changed)
         self.combo_item_type.currentTextChanged.connect(self.on_combo_item_type_changed)
@@ -140,14 +142,14 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.set_item_fields(self.get_selected_item())
 
     def on_item_add_effect_pressed(self):
-        print("show dialog")
         effect_dialog = DialogEffect(self)
         if effect_dialog.exec_():
             effect_type = effect_dialog.combo_effect.currentText()
             value = effect_dialog.spinner_value.value()
             duration = None
-            if effect_dialog.spinner_duration.isEnabled:
+            if effect_dialog.spinner_duration.isEnabled():
                 duration = effect_dialog.spinner_duration.value()
+            print(duration)
             self.add_item_effect(effect_type, value, duration)
             # Create the data object
             effect = Effect()
@@ -166,8 +168,38 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.table_effects.insertRow(rowCount)
         self.table_effects.setItem(rowCount, 0, QtWidgets.QTableWidgetItem(effect_type))
         self.table_effects.setItem(rowCount, 1, QtWidgets.QTableWidgetItem(str(value)))
-        if not duration == None:
+        print(duration)
+        if duration != None:
             self.table_effects.setItem(rowCount, 2, QtWidgets.QTableWidgetItem(str(duration)))
+        else:
+            self.table_effects.setItem(rowCount, 2, QtWidgets.QTableWidgetItem("N/A"))
+
+    def on_item_delete_effect_pressed(self):
+        idx = self.table_effects.currentRow()
+        if idx != -1:
+            self.table_effects.removeRow(idx)
+            self.get_selected_item().data["effects"].pop(idx)
+
+    def on_item_edit_effect_pressed(self):
+        idx = self.table_effects.currentRow()
+        if idx != -1:
+            selected_effect = self.get_selected_item().data["effects"][idx]
+            effect_dialog = DialogEffect(self)
+            # Set fields to existing values
+            self.set_combo(effect_dialog.combo_effect, selected_effect.status_effect)
+            effect_dialog.spinner_value.setValue(selected_effect.value)
+            if selected_effect.duration != None:
+                effect_dialog.spinner_duration.setValue(selected_effect.duration)
+            if effect_dialog.exec_():
+                selected_effect.status_effect = effect_dialog.combo_effect.currentText()
+                selected_effect.value = effect_dialog.spinner_value.value()
+                self.table_effects.item(idx, 0).setText(selected_effect.status_effect)
+                self.table_effects.item(idx, 1).setText(str(selected_effect.value))
+                if effect_dialog.spinner_duration.isEnabled():
+                    selected_effect.duration = effect_dialog.spinner_duration.value()
+                    self.table_effects.item(idx, 2).setText(str(selected_effect.duration))
+                else:
+                    self.table_effects.item(idx, 2).setText("N/A")
 
     def set_item_fields(self, item):
         self.text_item_name.setText(item.name)
