@@ -126,6 +126,16 @@
            <string>CONSUMABLE</string>
           </property>
          </item>
+         <item>
+          <property name="text">
+           <string>FOOD</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>FUEL</string>
+          </property>
+         </item>
         </widget>
        </item>
        <item>
@@ -136,7 +146,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinner_item_value"/>
+        <widget class="QSpinBox" name="spinner_item_value">
+         <property name="maximum">
+          <number>9999999</number>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QLabel" name="label_6">
@@ -223,7 +237,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinner_item_damage"/>
+        <widget class="QSpinBox" name="spinner_item_damage">
+         <property name="maximum">
+          <number>999</number>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QLabel" name="label_ammo">
@@ -284,7 +302,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinner_item_defense"/>
+        <widget class="QSpinBox" name="spinner_item_defense">
+         <property name="maximum">
+          <number>999</number>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="Line" name="line_4">

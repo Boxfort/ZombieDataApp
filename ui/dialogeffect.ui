@@ -48,7 +48,11 @@
     </widget>
    </item>
    <item>
-    <widget class="QSpinBox" name="spinner_value"/>
+    <widget class="QSpinBox" name="spinner_value">
+     <property name="maximum">
+      <number>999</number>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="QLabel" name="label_duration">
@@ -61,7 +65,11 @@
     </widget>
    </item>
    <item>
-    <widget class="QSpinBox" name="spinner_duration"/>
+    <widget class="QSpinBox" name="spinner_duration">
+     <property name="maximum">
+      <number>999</number>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">

@@ -49,11 +49,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ZombieData):
     def save(self, save_as):
         index = self.tabWidget.currentIndex()
         if index == 0:
-            self.item_tab.save()
+            self.item_tab.save(save_as)
         elif index == 1:
-            self.enemies_tab.save()
+            self.enemies_tab.save(save_as)
         elif index == 2:
-            self.events_tab.save()
+            self.events_tab.save(save_as)
 
     def on_load_action_pressed(self):
         index = self.tabWidget.currentIndex()

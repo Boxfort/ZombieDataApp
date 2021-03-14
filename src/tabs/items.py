@@ -211,6 +211,10 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.spinner_item_damage.setValue(item.data.get("damage", 0))
         self.spinner_item_defense.setValue(item.data.get("defence", 0))
         self.spinner_item_durability.setValue(item.data.get("max_durability", 0))
+        combat_description = item.data.get("combat_description", "")
+        self.text_item_combat_description.setText(combat_description)
+        offensive = item.data.get("offensive", False)
+        self.check_item_offensive.setChecked(offensive)
         self.table_effects.setRowCount(0)
         for check in self.tag_checks:
             if check.text() in item.tags:
@@ -278,11 +282,22 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         for item_data in data.values():
             item = Item()
             item.name = item_data["name"]
+            item.icon_slug = item_data["icon_slug"]
+            item.description = item_data["description"]
             item.spawn_rate = item_data["spawn_rate"]
             item.tags = item_data["tags"]
             item.value = item_data["value"]
             item.type = item_data["type"]
             item.data = item_data["data"]
+            effects_data = item_data["data"].get("effects", [])
+            effects = []
+            for effect_data in effects_data:
+                effect = Effect()
+                effect.status_effect = effect_data["status_effect"]
+                effect.value = effect_data.get("value", 0)
+                effect.duration = effect_data.get("duration", None)
+                effects.append(effect)
+            item.data["effects"] = effects
             items.append(item)
 
         if items:

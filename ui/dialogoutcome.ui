@@ -111,7 +111,11 @@
     </widget>
    </item>
    <item>
-    <widget class="QSpinBox" name="spinner_eventid"/>
+    <widget class="QSpinBox" name="spinner_eventid">
+     <property name="maximum">
+      <number>99999999</number>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
