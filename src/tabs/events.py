@@ -5,6 +5,8 @@ import json
 from ui.ui_tabevents import Ui_EventTabContents
 from PyQt5 import QtCore, QtWidgets, uic 
 from model.event import Event
+from model.option import Option
+from model.outcome import Outcome
 from dialogs.option import DialogOption
 
 class EventTab(QtWidgets.QWidget, Ui_EventTabContents):
@@ -138,6 +140,59 @@ class EventTab(QtWidgets.QWidget, Ui_EventTabContents):
                 selected_option.outcomes = option_dialog.option.outcomes
                 self.table_event_options.item(idx, 0).setText(selected_option.text)
                 self.table_event_options.item(idx, 1).setText(', '.join(map(lambda x: x.action, selected_option.outcomes)))
+
+    def save(self):
+        print("Saving Events...")
+        event_dict = {}
+        for (i, x) in enumerate(self.events):
+            x.id = i
+            event_dict[i] = x
+        filename= self.get_save_filename()
+        if filename:
+            with open(filename, 'w+') as outfile:
+                json.dump(event_dict, outfile, default=lambda o: o.__dict__, indent=4)
+        else: 
+            print("Directory not selected.")
+
+    def load(self):
+        filename = self.get_load_filename()
+        if not filename:
+            return
+
+        data = {}
+        with open(filename) as json_file:
+            data = json.load(json_file)
+
+        events = []
+        for event_data in data.values():
+            print(event_data)
+            event = Event()
+            event.id = event_data["id"]
+            event.name = event_data["name"]
+            event.chance = event_data["chance"]
+            event.text = event_data["text"]
+            event.tags = event_data["tags"]
+            for option_data in event_data["options"]:
+                option = Option()
+                option.text = option_data["text"]
+                for outcome_data in option_data["outcomes"]:
+                    outcome = Outcome()
+                    outcome.text = outcome_data["text"]
+                    outcome.action = outcome_data["action"]
+                    outcome.chance = outcome_data["chance"]
+                    outcome.data = outcome_data["data"]
+                    option.outcomes.append(outcome)
+                event.options.append(option)
+            events.append(event)
+
+        if events:
+            self.events = events
+            self.list_events.clear()
+            for event in self.events:
+                self.list_events.addItem(str(event.id) + " - " + event.name)
+                self.list_events.setCurrentRow(self.list_events.count()-1)
+                self.list_events.item(self.list_events.count()-1).setSelected(True)
+                self.set_event_fields(event)
     
     def get_load_filename(self):
         filename, _ = QtWidgets.QFileDialog.getOpenFileName(

@@ -57,7 +57,6 @@ class DialogOption(QtWidgets.QDialog, Ui_DialogOption):
             self.add_outcome(outcome)
             self.option.outcomes.append(outcome)
 
-
     def on_delete_outcome_clicked(self):
         idx = self.table_outcomes.currentRow()
         if idx != -1:

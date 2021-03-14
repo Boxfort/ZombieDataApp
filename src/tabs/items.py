@@ -286,7 +286,6 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
                 self.list_items.item(self.list_items.count()-1).setSelected(True)
                 self.set_item_fields(item)
 
-
     def get_load_filename(self):
         filename, _ = QtWidgets.QFileDialog.getOpenFileName(
             self,

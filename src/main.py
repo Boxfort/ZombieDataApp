@@ -46,8 +46,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ZombieData):
             self.events_tab.save()
 
     def on_load_action_pressed(self):
-        self.item_tab.load()
-
+        index = self.tabWidget.currentIndex()
+        if index == 0:
+            self.item_tab.load()
+        elif index == 1:
+            self.enemies_tab.load()
+        elif index == 2:
+            self.events_tab.load()
 
 app = QtWidgets.QApplication(sys.argv)
 
