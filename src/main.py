@@ -13,6 +13,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ZombieData):
     def __init__(self, *args, obj=None, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
+        # Vars
+        self.items_filename = ""
+        self.enemies_filename = ""
+        self.events_filename = ""
         # Tabs
         self.item_tab = ItemTab()
         self.tab_items.layout().addWidget(self.item_tab)
@@ -23,6 +27,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ZombieData):
         # Connections
         self.actionSave.triggered.connect(self.on_save_action_pressed)
         self.actionLoad.triggered.connect(self.on_load_action_pressed)
+        self.actionSave_As.triggered.connect(self.on_save_as_action_pressed)
 
     def closeEvent(self, event):
         # TODO: Check for unsaved data
@@ -36,7 +41,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_ZombieData):
         else:
             event.ignore()
 
+    def on_save_as_action_pressed(self):
+        self.save(True)
+
     def on_save_action_pressed(self):
+        self.save(False)
+
+    def save(self, save_as):
         index = self.tabWidget.currentIndex()
         if index == 0:
             self.item_tab.save()

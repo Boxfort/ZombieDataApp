@@ -11,6 +11,7 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
         super().__init__()
         self.setupUi(self)
         # Vars
+        self.filename = None
         self.enemies = []
         self.tag_checks = [
             self.check_tag_common,
@@ -117,11 +118,16 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
         self.get_selected_enemy().tags = selected_tags
         print(selected_tags)
 
-    def save(self):
+    def save(self, save_as = False):
         print("Saving Enemies...")
-        filename= self.get_save_filename()
-        if filename:
-            with open(filename, 'w+') as outfile:
+
+        if save_as or not self.filename:
+            filename = self.get_save_filename()
+            if filename:
+                self.filename = filename
+
+        if self.filename:
+            with open(self.filename, 'w+') as outfile:
                 json.dump(self.enemies, outfile, default=lambda o: o.__dict__, indent=4)
         else: 
             print("Directory not selected.")
@@ -131,6 +137,8 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
         filename = self.get_load_filename()
         if not filename:
             return
+
+        self.filename = filename
 
         data = {}
         with open(filename) as json_file:

@@ -13,6 +13,7 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         super().__init__()
         self.setupUi(self)
         # Vars
+        self.filename = None
         self.items = []
         self.tag_checks = [
             self.check_tag_common,
@@ -230,16 +231,21 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         selected_idx = self.list_items.currentRow()
         return self.items[selected_idx]
 
-    def save(self):
+    def save(self, save_as = False):
         print("Saving Items...")
         item_dict = {}
         self.fill_missing_item_data()
         for (i, x) in enumerate(self.items):
             x.id = i
             item_dict[i] = x
-        filename= self.get_save_filename()
-        if filename:
-            with open(filename, 'w+') as outfile:
+
+        if save_as or not self.filename:
+            filename = self.get_save_filename()
+            if filename:
+                self.filename = filename
+
+        if self.filename:
+            with open(self.filename, 'w+') as outfile:
                 json.dump(item_dict, outfile, default=lambda o: o.__dict__, indent=4)
         else: 
             print("Directory not selected.")
@@ -261,6 +267,8 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         filename = self.get_load_filename()
         if not filename:
             return
+
+        self.filename = filename
 
         data = {}
         with open(filename) as json_file:

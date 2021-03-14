@@ -36,6 +36,7 @@ class Ui_DialogOutcome(object):
         self.label_2.setObjectName("label_2")
         self.verticalLayout.addWidget(self.label_2)
         self.spinner_chance = QtWidgets.QSpinBox(DialogOutcome)
+        self.spinner_chance.setMaximum(100)
         self.spinner_chance.setObjectName("spinner_chance")
         self.verticalLayout.addWidget(self.spinner_chance)
         self.label_tags = QtWidgets.QLabel(DialogOutcome)

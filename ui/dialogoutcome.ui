@@ -58,7 +58,11 @@
     </widget>
    </item>
    <item>
-    <widget class="QSpinBox" name="spinner_chance"/>
+    <widget class="QSpinBox" name="spinner_chance">
+     <property name="maximum">
+      <number>100</number>
+     </property>
+    </widget>
    </item>
    <item>
     <widget class="QLabel" name="label_tags">

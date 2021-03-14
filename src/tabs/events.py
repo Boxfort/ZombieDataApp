@@ -14,6 +14,7 @@ class EventTab(QtWidgets.QWidget, Ui_EventTabContents):
         super().__init__()
         self.setupUi(self)
         # Vars
+        self.filename = None
         self.events = []
         self.tag_checks = [
             self.check_tag_common,
@@ -141,15 +142,20 @@ class EventTab(QtWidgets.QWidget, Ui_EventTabContents):
                 self.table_event_options.item(idx, 0).setText(selected_option.text)
                 self.table_event_options.item(idx, 1).setText(', '.join(map(lambda x: x.action, selected_option.outcomes)))
 
-    def save(self):
+    def save(self, save_as = False):
         print("Saving Events...")
         event_dict = {}
         for (i, x) in enumerate(self.events):
             x.id = i
             event_dict[i] = x
-        filename= self.get_save_filename()
-        if filename:
-            with open(filename, 'w+') as outfile:
+
+        if save_as or not self.filename:
+            filename = self.get_save_filename()
+            if filename:
+                self.filename = filename
+
+        if self.filename:
+            with open(self.filename, 'w+') as outfile:
                 json.dump(event_dict, outfile, default=lambda o: o.__dict__, indent=4)
         else: 
             print("Directory not selected.")
@@ -158,6 +164,8 @@ class EventTab(QtWidgets.QWidget, Ui_EventTabContents):
         filename = self.get_load_filename()
         if not filename:
             return
+
+        self.filename = filename
 
         data = {}
         with open(filename) as json_file:
