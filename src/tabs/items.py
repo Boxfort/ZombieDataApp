@@ -86,7 +86,7 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.get_selected_item().data["max_durability"] = item_durability
 
     def on_item_damage_changed(self):
-        item_damage = self.spinner_item_durability.value()
+        item_damage = self.spinner_item_damage.value()
         self.get_selected_item().data["damage"] = item_damage
 
     def on_item_defense_changed(self):
@@ -145,31 +145,21 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
     def on_item_add_effect_pressed(self):
         effect_dialog = DialogEffect(self)
         if effect_dialog.exec_():
-            effect_type = effect_dialog.combo_effect.currentText()
-            value = effect_dialog.spinner_value.value()
-            duration = None
-            if effect_dialog.spinner_duration.isEnabled():
-                duration = effect_dialog.spinner_duration.value()
-            self.add_item_effect(effect_type, value, duration)
-            # Create the data object
-            effect = Effect()
-            effect.status_effect = effect_type
-            effect.value = value
-            effect.duration = duration
+            self.add_item_effect(effect_dialog.effect)
             # Add effect data to the item
             item = self.get_selected_item()
             if not item.data.get("effects", None):
                 item.data["effects"] = []
-            item.data["effects"].append(effect)      
+            item.data["effects"].append(effect_dialog.effect)      
     
-    def add_item_effect(self, effect_type, value, duration):
+    def add_item_effect(self, effect):
         # Add to the table
         rowCount = self.table_effects.rowCount()
         self.table_effects.insertRow(rowCount)
-        self.table_effects.setItem(rowCount, 0, QtWidgets.QTableWidgetItem(effect_type))
-        self.table_effects.setItem(rowCount, 1, QtWidgets.QTableWidgetItem(str(value)))
-        if duration != None:
-            self.table_effects.setItem(rowCount, 2, QtWidgets.QTableWidgetItem(str(duration)))
+        self.table_effects.setItem(rowCount, 0, QtWidgets.QTableWidgetItem(effect.status_effect))
+        self.table_effects.setItem(rowCount, 1, QtWidgets.QTableWidgetItem(str(effect.value)))
+        if effect.duration != None:
+            self.table_effects.setItem(rowCount, 2, QtWidgets.QTableWidgetItem(str(effect.duration)))
         else:
             self.table_effects.setItem(rowCount, 2, QtWidgets.QTableWidgetItem("N/A"))
 
@@ -188,6 +178,7 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
             # Set fields to existing values
             self.set_combo(effect_dialog.combo_effect, selected_effect.status_effect)
             effect_dialog.spinner_value.setValue(selected_effect.value)
+            effect_dialog.spinner_chance.setValue(selected_effect.chance)
             if selected_effect.duration != None:
                 effect_dialog.spinner_duration.setValue(selected_effect.duration)
             if effect_dialog.exec_():
@@ -222,7 +213,7 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
             else:
                 check.setChecked(False)
         for effect in item.data.get("effects", []):
-            self.add_item_effect(effect.status_effect, effect.value, effect.duration)
+            self.add_item_effect(effect)
         # Update type state
         self.on_combo_item_type_changed()
 

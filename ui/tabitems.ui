@@ -23,9 +23,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
+        <y>-200</y>
         <width>722</width>
-        <height>1024</height>
+        <height>1132</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -244,6 +244,37 @@
         </widget>
        </item>
        <item>
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>Attack Type</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboi_attacktype">
+         <item>
+          <property name="text">
+           <string>SLASH</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>SMASH</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>GUN</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>PROJECTILE</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
         <widget class="QLabel" name="label_ammo">
          <property name="text">
           <string>Ammo</string>
@@ -273,6 +304,16 @@
           </property>
          </item>
         </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_12">
+         <property name="text">
+          <string>Projectile Slug</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="text_projectile_slug"/>
        </item>
        <item>
         <widget class="Line" name="line_2">

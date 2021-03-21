@@ -3,3 +3,4 @@ class Effect(object):
         self.status_effect = "HEALTH_EFFECT"
         self.value = 0
         self.duration = None
+        self.chance = 100

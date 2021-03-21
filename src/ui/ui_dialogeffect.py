@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_DialogEffect(object):
     def setupUi(self, DialogEffect):
         DialogEffect.setObjectName("DialogEffect")
-        DialogEffect.resize(400, 207)
+        DialogEffect.resize(400, 262)
         self.verticalLayout = QtWidgets.QVBoxLayout(DialogEffect)
         self.verticalLayout.setObjectName("verticalLayout")
         self.label = QtWidgets.QLabel(DialogEffect)
@@ -41,6 +41,14 @@ class Ui_DialogEffect(object):
         self.spinner_duration.setMaximum(999)
         self.spinner_duration.setObjectName("spinner_duration")
         self.verticalLayout.addWidget(self.spinner_duration)
+        self.label_chance = QtWidgets.QLabel(DialogEffect)
+        self.label_chance.setObjectName("label_chance")
+        self.verticalLayout.addWidget(self.label_chance)
+        self.spinner_chance = QtWidgets.QSpinBox(DialogEffect)
+        self.spinner_chance.setMaximum(100)
+        self.spinner_chance.setProperty("value", 100)
+        self.spinner_chance.setObjectName("spinner_chance")
+        self.verticalLayout.addWidget(self.spinner_chance)
         self.buttonBox = QtWidgets.QDialogButtonBox(DialogEffect)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
@@ -61,3 +69,4 @@ class Ui_DialogEffect(object):
         self.combo_effect.setItemText(2, _translate("DialogEffect", "HEALTH_EFFECT"))
         self.label_amount.setText(_translate("DialogEffect", "Amount"))
         self.label_duration.setText(_translate("DialogEffect", "Duration"))
+        self.label_chance.setText(_translate("DialogEffect", "Chance"))

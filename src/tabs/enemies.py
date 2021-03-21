@@ -5,6 +5,7 @@ import json
 from ui.ui_tabenemies import Ui_EnemyTabContents
 from PyQt5 import QtCore, QtWidgets, uic 
 from model.enemy import Enemy
+from dialogs.attack import DialogAttack
 
 class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
     def __init__(self):
@@ -24,12 +25,14 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
         self.button_enemy_delete.clicked.connect(self.on_delete_enemy_pressed)
         self.list_enemies.itemClicked.connect(self.on_enemy_list_pressed)
         self.text_enemy_name.textChanged.connect(self.on_enemy_name_changed)
-        self.spinner_enemy_attack.valueChanged.connect(self.on_enemy_attack_changed)
         self.spinner_enemy_defence.valueChanged.connect(self.on_enemy_defence_changed)
         self.spinner_enemy_health.valueChanged.connect(self.on_enemy_health_changed)
         self.spinner_enemy_melee_acc.valueChanged.connect(self.on_enemy_melee_changed)
         self.spinner_enemy_ranged_acc.valueChanged.connect(self.on_enemy_ranged_changed)
         self.spinner_enemy_spawn_rate.valueChanged.connect(self.on_enemy_spawn_rate_changed)
+        self.button_attack_add.clicked.connect(self.on_add_attack_pressed)
+        self.button_attack_remove.clicked.connect(self.on_delete_attack_pressed)
+        self.button_attack_edit.clicked.connect(self.on_edit_attack_pressed)
         for check in self.tag_checks:
             check.clicked.connect(self.on_tag_changed)
         # Init
@@ -67,7 +70,6 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
 
     def set_enemy_fields(self, enemy):
         self.text_enemy_name.setText(enemy.name)
-        self.spinner_enemy_attack.setValue(enemy.attack)
         self.spinner_enemy_defence.setValue(enemy.defence)
         self.spinner_enemy_health.setValue(enemy.max_health)
         self.spinner_enemy_melee_acc.setValue(enemy.melee_accuracy)
@@ -78,15 +80,14 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
                 check.setChecked(True)
             else:
                 check.setChecked(False)
+        self.table_attacks.setRowCount(0)
+        for attack in enemy.attacks:
+            self.add_enemy_attack(attack)
 
     def on_enemy_name_changed(self):
         enemy_name = self.text_enemy_name.text()
         self.list_enemies.currentItem().setText(enemy_name)
         self.get_selected_enemy().name = enemy_name
-
-    def on_enemy_attack_changed(self):
-        enemy_attack = self.spinner_enemy_attack.value()
-        self.get_selected_enemy().attack = enemy_attack
 
     def on_enemy_defence_changed(self):
         enemy_defence = self.spinner_enemy_defence.value()
@@ -116,13 +117,54 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
         self.get_selected_enemy().tags = selected_tags
         print(selected_tags)
 
+
+    def add_enemy_attack(self, attack):
+        # Add to the table
+        rowCount = self.table_attacks.rowCount()
+        self.table_attacks.insertRow(rowCount)
+        self.table_attacks.setItem(rowCount, 0, QtWidgets.QTableWidgetItem(str(attack.chance)))
+        self.table_attacks.setItem(rowCount, 1, QtWidgets.QTableWidgetItem(str(attack.damage)))
+        self.table_attacks.setItem(rowCount, 2, QtWidgets.QTableWidgetItem(str(attack.is_ranged)))
+        self.table_attacks.setItem(rowCount, 3, QtWidgets.QTableWidgetItem(', '.join(map(lambda x: x.status_effect, attack.effects))))
+
+    def on_add_attack_pressed(self):
+        attack_dialog = DialogAttack(self)
+        if attack_dialog.exec_():
+            self.add_enemy_attack(attack_dialog.attack)
+            self.get_selected_enemy().attacks.append(attack_dialog.attack)
+
+    def on_delete_attack_pressed(self):
+        idx = self.table_attacks.currentRow()
+        if idx != -1:
+            self.table_attacks.removeRow(idx)
+            self.get_selected_enemy().attacks.pop(idx)
+
+    def on_edit_attack_pressed(self):
+        idx = self.table_attacks.currentRow()
+        if idx != -1:
+            selected_attack = self.get_selected_enemy().attacks[idx]
+            attack_dialog = DialogAttack(self)
+            attack_dialog.setWindowTitle("Edit Attack")
+            # Set fields to existing values
+            attack_dialog.set_fields(selected_attack)
+            if attack_dialog.exec_():
+                selected_attack.is_ranged = attack_dialog.attack.is_ranged
+                selected_attack.damage = attack_dialog.attack.damage
+                selected_attack.chance = attack_dialog.attack.chance
+                selected_attack.effects = attack_dialog.attack.effects
+                selected_attack.attack_type = attack_dialog.attack.attack_type
+                self.table_event_options.item(idx, 0).setText(str(selected_attack.chance))
+                self.table_event_options.item(idx, 0).setText(str(selected_attack.damage))
+                self.table_event_options.item(idx, 0).setText(str(selected_attack.is_ranged))
+                self.table_event_options.item(idx, 0).setText(', '.join(map(lambda x: x.status_effect, selected_attack.effects)))
+
+
     def save(self, save_as = False):
         print("Saving Enemies...")
         for enemy in self.enemies:
             enemy.sprite_slug = enemy.name.lower().replace(" ", "_")
 
         enemy_dict = {}
-        self.fill_missing_item_data()
         for (i, x) in enumerate(self.enemies):
             x.id = i
             enemy_dict[i] = x
@@ -163,6 +205,7 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
             enemy.speed = enemy_data["speed"]
             enemy.spawn_rate = enemy_data["spawn_rate"]
             enemy.tags = enemy_data["tags"]
+            enemy.attacks = enemy_data.get("attacks", [])
             enemies.append(enemy)
 
         if enemies:

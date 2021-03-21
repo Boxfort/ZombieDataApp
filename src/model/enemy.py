@@ -10,3 +10,4 @@ class Enemy(object):
         self.speed = 0
         self.spawn_rate = 0
         self.tags = []
+        self.attacks = []

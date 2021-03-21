@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>207</height>
+    <height>262</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -68,6 +68,23 @@
     <widget class="QSpinBox" name="spinner_duration">
      <property name="maximum">
       <number>999</number>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_chance">
+     <property name="text">
+      <string>Chance</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QSpinBox" name="spinner_chance">
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="value">
+      <number>100</number>
      </property>
     </widget>
    </item>
