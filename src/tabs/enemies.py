@@ -5,6 +5,8 @@ import json
 from ui.ui_tabenemies import Ui_EnemyTabContents
 from PyQt5 import QtCore, QtWidgets, uic 
 from model.enemy import Enemy
+from model.attack import Attack
+from model.effect import Effect
 from dialogs.attack import DialogAttack
 
 class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
@@ -205,7 +207,20 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
             enemy.speed = enemy_data["speed"]
             enemy.spawn_rate = enemy_data["spawn_rate"]
             enemy.tags = enemy_data["tags"]
-            enemy.attacks = enemy_data.get("attacks", [])
+            for attackData in enemy_data.get("attacks", []):
+                attack = Attack()
+                attack.attack_type = attackData["attack_type"]
+                attack.chance = attackData["chance"]
+                attack.damage = attackData["damage"]
+                attack.is_ranged = attackData["is_ranged"]
+                for effectData in attackData["effects"]:
+                    effect = Effect()
+                    effect.chance = effectData["chance"]
+                    effect.duration = effectData["duration"]
+                    effect.status_effect = effectData["status_effect"]
+                    effect.value = effectData["value"]
+                    attack.effects.append()
+                enemy.attacks.append(attack)
             enemies.append(enemy)
 
         if enemies:
