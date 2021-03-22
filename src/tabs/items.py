@@ -45,6 +45,7 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.combo_item_icon_slug.currentTextChanged.connect(self.on_item_slug_changed)
         self.text_item_combat_description.textChanged.connect(self.on_item_combat_description_changed)
         self.check_item_offensive.stateChanged.connect(self.on_item_offensive_changed)
+        self.text_projectile_slug.textChanged.connect(self.on_projectile_slug_changed)
         for check in self.tag_checks:
             check.clicked.connect(self.on_tag_changed)
         # Init
@@ -76,6 +77,8 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.check_item_offensive.setEnabled(consumable_condition)
         self.label_defense.setEnabled(armour_condition)
         self.spinner_item_defense.setEnabled(armour_condition)
+        self.text_projectile_slug.setEnabled((consumable_condition or weapon_condition))
+        self.label_projectile_slug.setEnabled((consumable_condition or weapon_condition))
 
     def on_item_value_changed(self):
         item_value = self.spinner_item_value.value()
@@ -115,6 +118,9 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
             if check.isChecked():
                 selected_tags.append(check.text())
         self.get_selected_item().tags = selected_tags
+
+    def on_projectile_slug_changed(self):
+        self.get_selected_item().data["projectile_slug"] = self.text_projectile_slug.text()
 
     def on_new_item_pressed(self):
         item = Item()
@@ -207,6 +213,7 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         offensive = item.data.get("offensive", False)
         self.check_item_offensive.setChecked(offensive)
         self.table_effects.setRowCount(0)
+        self.text_projectile_slug.setText(item.data.get("projectile_slug", ""))
         for check in self.tag_checks:
             if check.text() in item.tags:
                 check.setChecked(True)

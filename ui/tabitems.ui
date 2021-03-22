@@ -23,7 +23,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-200</y>
+        <y>-191</y>
         <width>722</width>
         <height>1132</height>
        </rect>
@@ -205,6 +205,16 @@
         <widget class="QSpinBox" name="spinner_item_durability"/>
        </item>
        <item>
+        <widget class="QLabel" name="label_projectile_slug">
+         <property name="text">
+          <string>Projectile Slug</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="text_projectile_slug"/>
+       </item>
+       <item>
         <widget class="Line" name="line">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -304,16 +314,6 @@
           </property>
          </item>
         </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_12">
-         <property name="text">
-          <string>Projectile Slug</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="text_projectile_slug"/>
        </item>
        <item>
         <widget class="Line" name="line_2">
