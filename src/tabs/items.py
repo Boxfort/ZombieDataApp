@@ -41,6 +41,7 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.spinner_item_durability.valueChanged.connect(self.on_item_durability_changed)
         self.spinner_item_damage.valueChanged.connect(self.on_item_damage_changed)
         self.spinner_item_defense.valueChanged.connect(self.on_item_defense_changed)
+        self.spinner_spawn_rate.valueChanged.connect(self.on_item_spawn_rate_changed)
         self.combo_item_ammo.currentTextChanged.connect(self.on_item_ammo_changed)
         self.combo_item_icon_slug.currentTextChanged.connect(self.on_item_slug_changed)
         self.text_item_combat_description.textChanged.connect(self.on_item_combat_description_changed)
@@ -65,11 +66,12 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         item_type = self.combo_item_type.currentText()
         self.get_selected_item().type = item_type
         weapon_condition = item_type == "WEAPON"
+        ammo_condition = item_type == "AMMO"
         consumable_condition = item_type == "CONSUMABLE"
         armour_condition = item_type == "ARMOUR"
         self.label_damage.setEnabled(weapon_condition)
         self.spinner_item_damage.setEnabled(weapon_condition)
-        self.combo_item_ammo.setEnabled(weapon_condition)
+        self.combo_item_ammo.setEnabled(weapon_condition or ammo_condition)
         self.label_durability.setEnabled(not consumable_condition)
         self.spinner_item_durability.setEnabled(not consumable_condition)
         self.label_combat_description.setEnabled(consumable_condition)
@@ -111,6 +113,9 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
     def on_item_offensive_changed(self):
         item_offensive = self.check_item_offensive.isChecked()
         self.get_selected_item().data["offensive"] = item_offensive
+
+    def on_item_spawn_rate_changed(self):
+        self.get_selected_item().spawn_rate = self.spinner_spawn_rate.value()
 
     def on_tag_changed(self):
         selected_tags = []
@@ -208,6 +213,7 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.spinner_item_damage.setValue(item.data.get("damage", 0))
         self.spinner_item_defense.setValue(item.data.get("defence", 0))
         self.spinner_item_durability.setValue(item.data.get("max_durability", 0))
+        self.spinner_spawn_rate.setValue(item.spawn_rate)
         combat_description = item.data.get("combat_description", "")
         self.text_item_combat_description.setText(combat_description)
         offensive = item.data.get("offensive", False)
