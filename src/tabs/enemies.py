@@ -221,7 +221,7 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
                     effect.duration = effectData["duration"]
                     effect.status_effect = effectData["status_effect"]
                     effect.value = effectData["value"]
-                    attack.effects.append()
+                    attack.effects.append(effect)
                 enemy.attacks.append(attack)
             enemies.append(enemy)
 
