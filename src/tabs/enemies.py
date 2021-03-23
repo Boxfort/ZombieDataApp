@@ -27,6 +27,7 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
         self.button_enemy_delete.clicked.connect(self.on_delete_enemy_pressed)
         self.list_enemies.itemClicked.connect(self.on_enemy_list_pressed)
         self.text_enemy_name.textChanged.connect(self.on_enemy_name_changed)
+        self.text_sprite_slug.textChanged.connect(self.on_sprite_slug_changed)
         self.spinner_enemy_defence.valueChanged.connect(self.on_enemy_defence_changed)
         self.spinner_enemy_health.valueChanged.connect(self.on_enemy_health_changed)
         self.spinner_enemy_melee_acc.valueChanged.connect(self.on_enemy_melee_changed)
@@ -65,6 +66,9 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
 
     def on_enemy_list_pressed(self):
         self.set_enemy_fields(self.get_selected_enemy())
+    
+    def on_sprite_slug_changed(self):
+        self.get_selected_enemy().sprite_slug = self.text_sprite_slug.text()
 
     def get_selected_enemy(self):
         selected_idx = self.list_enemies.currentRow()
@@ -72,6 +76,7 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
 
     def set_enemy_fields(self, enemy):
         self.text_enemy_name.setText(enemy.name)
+        self.text_sprite_slug.setText(enemy.sprite_slug)
         self.spinner_enemy_defence.setValue(enemy.defence)
         self.spinner_enemy_health.setValue(enemy.max_health)
         self.spinner_enemy_melee_acc.setValue(enemy.melee_accuracy)
@@ -163,9 +168,6 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
 
     def save(self, save_as = False):
         print("Saving Enemies...")
-        for enemy in self.enemies:
-            enemy.sprite_slug = enemy.name.lower().replace(" ", "_")
-
         enemy_dict = {}
         for (i, x) in enumerate(self.enemies):
             x.id = i
