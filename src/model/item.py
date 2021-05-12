@@ -6,6 +6,6 @@ class Item(object):
         self.type = "WEAPON"
         self.value = 0
         self.icon_slug = "icon_gun"
-        self.spawn_rate = 0
+        self.rarity = ""
         self.tags = []
         self.data = {}

@@ -23,9 +23,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-34</y>
+        <y>0</y>
         <width>722</width>
-        <height>1187</height>
+        <height>1186</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -165,12 +165,38 @@
        <item>
         <widget class="QLabel" name="label_12">
          <property name="text">
-          <string>Spawn Rate</string>
+          <string>Rarity</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinner_spawn_rate"/>
+        <widget class="QComboBox" name="combo_rarity">
+         <item>
+          <property name="text">
+           <string>COMMON</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>UNCOMMON</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>RARE</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>VERY RARE</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>LEGENDARY</string>
+          </property>
+         </item>
+        </widget>
        </item>
        <item>
         <widget class="QLabel" name="label_6">

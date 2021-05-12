@@ -59,7 +59,7 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
 
         selected_idx = self.list_enemies.currentRow()
         self.list_enemies.takeItem(self.list_enemies.currentRow())
-        self.items.pop(selected_idx)
+        self.enemies.pop(selected_idx)
         if self.list_enemies.count() > 0:
             self.list_enemies.item(self.list_enemies.currentRow()).setSelected(True)
             self.set_enemy_fields(self.get_selected_item())

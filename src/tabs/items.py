@@ -41,7 +41,7 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.spinner_item_durability.valueChanged.connect(self.on_item_durability_changed)
         self.spinner_item_damage.valueChanged.connect(self.on_item_damage_changed)
         self.spinner_item_defense.valueChanged.connect(self.on_item_defense_changed)
-        self.spinner_spawn_rate.valueChanged.connect(self.on_item_spawn_rate_changed)
+        self.combo_rarity.currentTextChanged.connect(self.on_item_rarity_changed)
         self.combo_item_ammo.currentTextChanged.connect(self.on_item_ammo_changed)
         self.combo_item_icon_slug.currentTextChanged.connect(self.on_item_slug_changed)
         self.text_item_combat_description.textChanged.connect(self.on_item_combat_description_changed)
@@ -102,6 +102,10 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         item_ammo = self.combo_item_ammo.currentText()
         self.get_selected_item().data["ammo_type"] = item_ammo
 
+    def on_item_rarity_changed(self):
+        item_rarity = self.combo_rarity.currentText()
+        self.get_selected_item().rarity = item_rarity
+
     def on_item_slug_changed(self):
         item_slug = self.combo_item_icon_slug.currentText()
         self.get_selected_item().icon_slug = item_slug
@@ -113,9 +117,6 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
     def on_item_offensive_changed(self):
         item_offensive = self.check_item_offensive.isChecked()
         self.get_selected_item().data["offensive"] = item_offensive
-
-    def on_item_spawn_rate_changed(self):
-        self.get_selected_item().spawn_rate = self.spinner_spawn_rate.value()
 
     def on_tag_changed(self):
         selected_tags = []
@@ -209,11 +210,11 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.set_combo(self.combo_item_type, item.type)
         self.set_combo(self.combo_item_icon_slug, item.icon_slug)
         self.set_combo(self.combo_item_ammo, item.data.get("ammo_type", "NONE"))
+        self.set_combo(self.combo_rarity, item.rarity)
         self.spinner_item_value.setValue(item.value)
         self.spinner_item_damage.setValue(item.data.get("damage", 0))
         self.spinner_item_defense.setValue(item.data.get("defence", 0))
         self.spinner_item_durability.setValue(item.data.get("max_durability", 0))
-        self.spinner_spawn_rate.setValue(item.spawn_rate)
         combat_description = item.data.get("combat_description", "")
         self.text_item_combat_description.setText(combat_description)
         offensive = item.data.get("offensive", False)
@@ -288,7 +289,7 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
             item.name = item_data["name"]
             item.icon_slug = item_data["icon_slug"]
             item.description = item_data["description"]
-            item.spawn_rate = item_data["spawn_rate"]
+            item.rarity = item_data.get("rarity", "COMMON")
             item.tags = item_data["tags"]
             item.value = item_data["value"]
             item.type = item_data["type"]
