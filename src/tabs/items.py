@@ -299,7 +299,7 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
             item.tags = item_data["tags"]
             item.value = item_data["value"]
             item.type = item_data["type"]
-            item.level = item_data["level"]
+            item.level = item_data.get("level", 1)
             item.data = item_data["data"]
             effects_data = item_data["data"].get("effects", [])
             effects = []
