@@ -25,7 +25,7 @@
         <x>0</x>
         <y>0</y>
         <width>639</width>
-        <height>714</height>
+        <height>768</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_8">
@@ -114,12 +114,48 @@
        <item>
         <widget class="QLabel" name="label_25">
          <property name="text">
-          <string>Spawn Rate</string>
+          <string>Level</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinner_enemy_spawn_rate"/>
+        <widget class="QSpinBox" name="spinner_enemy_level"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Difficulty</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="combo_difficulty">
+         <item>
+          <property name="text">
+           <string>EASY</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>MEDIUM</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>HARD</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>VERY HARD</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>BOSS</string>
+          </property>
+         </item>
+        </widget>
        </item>
        <item>
         <widget class="QLabel" name="label_26">

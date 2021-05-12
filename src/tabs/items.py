@@ -41,6 +41,7 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.spinner_item_durability.valueChanged.connect(self.on_item_durability_changed)
         self.spinner_item_damage.valueChanged.connect(self.on_item_damage_changed)
         self.spinner_item_defense.valueChanged.connect(self.on_item_defense_changed)
+        self.spinner_item_level.valueChanged.connect(self.on_item_level_changed)
         self.combo_rarity.currentTextChanged.connect(self.on_item_rarity_changed)
         self.combo_item_ammo.currentTextChanged.connect(self.on_item_ammo_changed)
         self.combo_item_icon_slug.currentTextChanged.connect(self.on_item_slug_changed)
@@ -97,6 +98,10 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
     def on_item_defense_changed(self):
         item_defense = self.spinner_item_defense.value()
         self.get_selected_item().data["defence"] = item_defense
+
+    def on_item_level_changed(self):
+        item_level = self.spinner_item_level.value()
+        self.get_selected_item().level = item_level
 
     def on_item_ammo_changed(self):
         item_ammo = self.combo_item_ammo.currentText()
@@ -215,6 +220,7 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.spinner_item_damage.setValue(item.data.get("damage", 0))
         self.spinner_item_defense.setValue(item.data.get("defence", 0))
         self.spinner_item_durability.setValue(item.data.get("max_durability", 0))
+        self.spinner_item_level.setValue(item.level)
         combat_description = item.data.get("combat_description", "")
         self.text_item_combat_description.setText(combat_description)
         offensive = item.data.get("offensive", False)
@@ -293,6 +299,7 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
             item.tags = item_data["tags"]
             item.value = item_data["value"]
             item.type = item_data["type"]
+            item.level = item_data["level"]
             item.data = item_data["data"]
             effects_data = item_data["data"].get("effects", [])
             effects = []

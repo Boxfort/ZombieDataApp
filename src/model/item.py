@@ -7,5 +7,6 @@ class Item(object):
         self.value = 0
         self.icon_slug = "icon_gun"
         self.rarity = ""
+        self.level = 0
         self.tags = []
         self.data = {}

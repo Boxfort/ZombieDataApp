@@ -28,11 +28,12 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
         self.list_enemies.itemClicked.connect(self.on_enemy_list_pressed)
         self.text_enemy_name.textChanged.connect(self.on_enemy_name_changed)
         self.text_sprite_slug.textChanged.connect(self.on_sprite_slug_changed)
+        self.combo_difficulty.currentTextChanged.connect(self.on_enemy_difficulty_changed)
         self.spinner_enemy_defence.valueChanged.connect(self.on_enemy_defence_changed)
         self.spinner_enemy_health.valueChanged.connect(self.on_enemy_health_changed)
         self.spinner_enemy_melee_acc.valueChanged.connect(self.on_enemy_melee_changed)
         self.spinner_enemy_ranged_acc.valueChanged.connect(self.on_enemy_ranged_changed)
-        self.spinner_enemy_spawn_rate.valueChanged.connect(self.on_enemy_spawn_rate_changed)
+        self.spinner_enemy_level.valueChanged.connect(self.on_enemy_level_changed)
         self.button_attack_add.clicked.connect(self.on_add_attack_pressed)
         self.button_attack_remove.clicked.connect(self.on_delete_attack_pressed)
         self.button_attack_edit.clicked.connect(self.on_edit_attack_pressed)
@@ -62,7 +63,7 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
         self.enemies.pop(selected_idx)
         if self.list_enemies.count() > 0:
             self.list_enemies.item(self.list_enemies.currentRow()).setSelected(True)
-            self.set_enemy_fields(self.get_selected_item())
+            self.set_enemy_fields(self.get_selected_enemy())
 
     def on_enemy_list_pressed(self):
         self.set_enemy_fields(self.get_selected_enemy())
@@ -81,7 +82,8 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
         self.spinner_enemy_health.setValue(enemy.max_health)
         self.spinner_enemy_melee_acc.setValue(enemy.melee_accuracy)
         self.spinner_enemy_ranged_acc.setValue(enemy.ranged_accuracy)
-        self.spinner_enemy_spawn_rate.setValue(enemy.spawn_rate)
+        self.spinner_enemy_level.setValue(enemy.level)
+        self.set_combo(self.combo_difficulty, enemy.difficulty)
         for check in self.tag_checks:
             if check.text() in enemy.tags:
                 check.setChecked(True)
@@ -112,9 +114,13 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
         enemy_ranged = self.spinner_enemy_ranged_acc.value()
         self.get_selected_enemy().ranged_accuracy = enemy_ranged
 
-    def on_enemy_spawn_rate_changed(self):
-        enemy_spawn_rate = self.spinner_enemy_spawn_rate.value()
-        self.get_selected_enemy().spawn_rate = enemy_spawn_rate
+    def on_enemy_level_changed(self):
+        enemy_level = self.spinner_enemy_level.value()
+        self.get_selected_enemy().level = enemy_level
+
+    def on_enemy_difficulty_changed(self):
+        enemy_difficulty = self.combo_difficulty.currentText()
+        self.get_selected_enemy().difficulty = enemy_difficulty
 
     def on_tag_changed(self):
         selected_tags = []
@@ -207,7 +213,8 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
             enemy.melee_accuracy = enemy_data["melee_accuracy"]
             enemy.ranged_accuracy = enemy_data["ranged_accuracy"]
             enemy.speed = enemy_data["speed"]
-            enemy.spawn_rate = enemy_data["spawn_rate"]
+            enemy.difficulty = enemy_data.get("difficulty", "EASY")
+            enemy.level = enemy_data.get("level", 1)
             enemy.tags = enemy_data["tags"]
             for attackData in enemy_data.get("attacks", []):
                 attack = Attack()
@@ -249,3 +256,8 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
             os.path.join(os.path.expanduser("~"), "enemies.json")
         )
         return filename
+
+    def set_combo(self, combo, text):
+        index = combo.findText(text, QtCore.Qt.MatchFixedString)
+        if index >= 0:
+            combo.setCurrentIndex(index)
