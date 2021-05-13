@@ -30,6 +30,16 @@
      </item>
      <item>
       <property name="text">
+       <string>POISONED</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>BLEEDING</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
        <string>STUNNED</string>
       </property>
      </item>
