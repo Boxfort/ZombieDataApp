@@ -38,6 +38,26 @@
        <string>EVENT_TRIGGER</string>
       </property>
      </item>
+     <item>
+      <property name="text">
+       <string>TEXT</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>BATTLE</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>ADD_SURVIVOR</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>REMOVE_SURVIVOR</string>
+      </property>
+     </item>
     </widget>
    </item>
    <item>
