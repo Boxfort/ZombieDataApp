@@ -8,5 +8,7 @@ class Enemy(object):
         self.melee_accuracy = 0
         self.ranged_accuracy = 0
         self.speed = 0
-        self.spawn_rate = 0
+        self.difficulty = ""
+        self.level = 0
         self.tags = []
+        self.attacks = []

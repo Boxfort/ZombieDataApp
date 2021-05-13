@@ -41,10 +41,13 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.spinner_item_durability.valueChanged.connect(self.on_item_durability_changed)
         self.spinner_item_damage.valueChanged.connect(self.on_item_damage_changed)
         self.spinner_item_defense.valueChanged.connect(self.on_item_defense_changed)
+        self.spinner_item_level.valueChanged.connect(self.on_item_level_changed)
+        self.combo_rarity.currentTextChanged.connect(self.on_item_rarity_changed)
         self.combo_item_ammo.currentTextChanged.connect(self.on_item_ammo_changed)
         self.combo_item_icon_slug.currentTextChanged.connect(self.on_item_slug_changed)
         self.text_item_combat_description.textChanged.connect(self.on_item_combat_description_changed)
         self.check_item_offensive.stateChanged.connect(self.on_item_offensive_changed)
+        self.text_projectile_slug.textChanged.connect(self.on_projectile_slug_changed)
         for check in self.tag_checks:
             check.clicked.connect(self.on_tag_changed)
         # Init
@@ -64,11 +67,12 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         item_type = self.combo_item_type.currentText()
         self.get_selected_item().type = item_type
         weapon_condition = item_type == "WEAPON"
+        ammo_condition = item_type == "AMMO"
         consumable_condition = item_type == "CONSUMABLE"
         armour_condition = item_type == "ARMOUR"
         self.label_damage.setEnabled(weapon_condition)
         self.spinner_item_damage.setEnabled(weapon_condition)
-        self.combo_item_ammo.setEnabled(weapon_condition)
+        self.combo_item_ammo.setEnabled(weapon_condition or ammo_condition)
         self.label_durability.setEnabled(not consumable_condition)
         self.spinner_item_durability.setEnabled(not consumable_condition)
         self.label_combat_description.setEnabled(consumable_condition)
@@ -76,6 +80,8 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.check_item_offensive.setEnabled(consumable_condition)
         self.label_defense.setEnabled(armour_condition)
         self.spinner_item_defense.setEnabled(armour_condition)
+        self.text_projectile_slug.setEnabled((consumable_condition or weapon_condition))
+        self.label_projectile_slug.setEnabled((consumable_condition or weapon_condition))
 
     def on_item_value_changed(self):
         item_value = self.spinner_item_value.value()
@@ -86,16 +92,24 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.get_selected_item().data["max_durability"] = item_durability
 
     def on_item_damage_changed(self):
-        item_damage = self.spinner_item_durability.value()
+        item_damage = self.spinner_item_damage.value()
         self.get_selected_item().data["damage"] = item_damage
 
     def on_item_defense_changed(self):
         item_defense = self.spinner_item_defense.value()
         self.get_selected_item().data["defence"] = item_defense
 
+    def on_item_level_changed(self):
+        item_level = self.spinner_item_level.value()
+        self.get_selected_item().level = item_level
+
     def on_item_ammo_changed(self):
         item_ammo = self.combo_item_ammo.currentText()
         self.get_selected_item().data["ammo_type"] = item_ammo
+
+    def on_item_rarity_changed(self):
+        item_rarity = self.combo_rarity.currentText()
+        self.get_selected_item().rarity = item_rarity
 
     def on_item_slug_changed(self):
         item_slug = self.combo_item_icon_slug.currentText()
@@ -115,6 +129,9 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
             if check.isChecked():
                 selected_tags.append(check.text())
         self.get_selected_item().tags = selected_tags
+
+    def on_projectile_slug_changed(self):
+        self.get_selected_item().data["projectile_slug"] = self.text_projectile_slug.text()
 
     def on_new_item_pressed(self):
         item = Item()
@@ -145,31 +162,21 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
     def on_item_add_effect_pressed(self):
         effect_dialog = DialogEffect(self)
         if effect_dialog.exec_():
-            effect_type = effect_dialog.combo_effect.currentText()
-            value = effect_dialog.spinner_value.value()
-            duration = None
-            if effect_dialog.spinner_duration.isEnabled():
-                duration = effect_dialog.spinner_duration.value()
-            self.add_item_effect(effect_type, value, duration)
-            # Create the data object
-            effect = Effect()
-            effect.status_effect = effect_type
-            effect.value = value
-            effect.duration = duration
+            self.add_item_effect(effect_dialog.effect)
             # Add effect data to the item
             item = self.get_selected_item()
             if not item.data.get("effects", None):
                 item.data["effects"] = []
-            item.data["effects"].append(effect)      
+            item.data["effects"].append(effect_dialog.effect)      
     
-    def add_item_effect(self, effect_type, value, duration):
+    def add_item_effect(self, effect):
         # Add to the table
         rowCount = self.table_effects.rowCount()
         self.table_effects.insertRow(rowCount)
-        self.table_effects.setItem(rowCount, 0, QtWidgets.QTableWidgetItem(effect_type))
-        self.table_effects.setItem(rowCount, 1, QtWidgets.QTableWidgetItem(str(value)))
-        if duration != None:
-            self.table_effects.setItem(rowCount, 2, QtWidgets.QTableWidgetItem(str(duration)))
+        self.table_effects.setItem(rowCount, 0, QtWidgets.QTableWidgetItem(effect.status_effect))
+        self.table_effects.setItem(rowCount, 1, QtWidgets.QTableWidgetItem(str(effect.value)))
+        if effect.duration != None:
+            self.table_effects.setItem(rowCount, 2, QtWidgets.QTableWidgetItem(str(effect.duration)))
         else:
             self.table_effects.setItem(rowCount, 2, QtWidgets.QTableWidgetItem("N/A"))
 
@@ -188,6 +195,7 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
             # Set fields to existing values
             self.set_combo(effect_dialog.combo_effect, selected_effect.status_effect)
             effect_dialog.spinner_value.setValue(selected_effect.value)
+            effect_dialog.spinner_chance.setValue(selected_effect.chance)
             if selected_effect.duration != None:
                 effect_dialog.spinner_duration.setValue(selected_effect.duration)
             if effect_dialog.exec_():
@@ -207,22 +215,25 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.set_combo(self.combo_item_type, item.type)
         self.set_combo(self.combo_item_icon_slug, item.icon_slug)
         self.set_combo(self.combo_item_ammo, item.data.get("ammo_type", "NONE"))
+        self.set_combo(self.combo_rarity, item.rarity)
         self.spinner_item_value.setValue(item.value)
         self.spinner_item_damage.setValue(item.data.get("damage", 0))
         self.spinner_item_defense.setValue(item.data.get("defence", 0))
         self.spinner_item_durability.setValue(item.data.get("max_durability", 0))
+        self.spinner_item_level.setValue(item.level)
         combat_description = item.data.get("combat_description", "")
         self.text_item_combat_description.setText(combat_description)
         offensive = item.data.get("offensive", False)
         self.check_item_offensive.setChecked(offensive)
         self.table_effects.setRowCount(0)
+        self.text_projectile_slug.setText(item.data.get("projectile_slug", ""))
         for check in self.tag_checks:
             if check.text() in item.tags:
                 check.setChecked(True)
             else:
                 check.setChecked(False)
         for effect in item.data.get("effects", []):
-            self.add_item_effect(effect.status_effect, effect.value, effect.duration)
+            self.add_item_effect(effect)
         # Update type state
         self.on_combo_item_type_changed()
 
@@ -284,10 +295,11 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
             item.name = item_data["name"]
             item.icon_slug = item_data["icon_slug"]
             item.description = item_data["description"]
-            item.spawn_rate = item_data["spawn_rate"]
+            item.rarity = item_data.get("rarity", "COMMON")
             item.tags = item_data["tags"]
             item.value = item_data["value"]
             item.type = item_data["type"]
+            item.level = item_data.get("level", 1)
             item.data = item_data["data"]
             effects_data = item_data["data"].get("effects", [])
             effects = []

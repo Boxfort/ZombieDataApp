@@ -25,7 +25,7 @@
         <x>0</x>
         <y>0</y>
         <width>722</width>
-        <height>1024</height>
+        <height>1241</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -83,6 +83,11 @@
            <string>icon_healing</string>
           </property>
          </item>
+         <item>
+          <property name="text">
+           <string>icon_ammo</string>
+          </property>
+         </item>
         </widget>
        </item>
        <item>
@@ -136,6 +141,11 @@
            <string>FUEL</string>
           </property>
          </item>
+         <item>
+          <property name="text">
+           <string>AMMO</string>
+          </property>
+         </item>
         </widget>
        </item>
        <item>
@@ -150,6 +160,52 @@
          <property name="maximum">
           <number>9999999</number>
          </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_13">
+         <property name="text">
+          <string>Level</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="spinner_item_level"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_12">
+         <property name="text">
+          <string>Rarity</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="combo_rarity">
+         <item>
+          <property name="text">
+           <string>COMMON</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>UNCOMMON</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>RARE</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>VERY RARE</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>LEGENDARY</string>
+          </property>
+         </item>
         </widget>
        </item>
        <item>
@@ -205,6 +261,16 @@
         <widget class="QSpinBox" name="spinner_item_durability"/>
        </item>
        <item>
+        <widget class="QLabel" name="label_projectile_slug">
+         <property name="text">
+          <string>Projectile Slug</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="text_projectile_slug"/>
+       </item>
+       <item>
         <widget class="Line" name="line">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -244,6 +310,37 @@
         </widget>
        </item>
        <item>
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>Attack Type</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboi_attacktype">
+         <item>
+          <property name="text">
+           <string>SLASH</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>SMASH</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>GUN</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>PROJECTILE</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
         <widget class="QLabel" name="label_ammo">
          <property name="text">
           <string>Ammo</string>
@@ -270,6 +367,11 @@
          <item>
           <property name="text">
            <string>SHOTGUN</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>ARROW</string>
           </property>
          </item>
         </widget>
