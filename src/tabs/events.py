@@ -32,6 +32,7 @@ class EventTab(QtWidgets.QWidget, Ui_EventTabContents):
         self.button_events_delete.clicked.connect(self.on_delete_event_pressed)
         self.list_events.itemClicked.connect(self.on_event_list_pressed)
         self.spinner_event_id.valueChanged.connect(self.on_event_id_changed)
+        self.spinner_event_chance.valueChanged.connect(self.on_event_chance_changed)
         self.text_event_name.textChanged.connect(self.on_event_name_changed)
         self.text_event_text.textChanged.connect(self.on_event_text_changed)
         self.button_option_add.clicked.connect(self.on_new_option_clicked)
@@ -57,6 +58,10 @@ class EventTab(QtWidgets.QWidget, Ui_EventTabContents):
         selected_event = self.get_selected_event()
         self.list_events.currentItem().setText(str(event_id) + " - " + selected_event.name)
         self.get_selected_event().id = event_id
+
+    def on_event_chance_changed(self):
+        event_chance = self.spinner_event_chance.value()
+        self.get_selected_event().chance = event_chance
 
     def on_new_event_pressed(self):
         event = Event()
@@ -176,7 +181,7 @@ class EventTab(QtWidgets.QWidget, Ui_EventTabContents):
             event = Event()
             event.id = event_data["id"]
             event.name = event_data["name"]
-            event.chance = event_data.get("chance", 0)
+            event.chance = event_data.get("chance", 1)
             event.text = event_data["text"]
             event.tags = event_data["tags"]
             for option_data in event_data["options"]:
