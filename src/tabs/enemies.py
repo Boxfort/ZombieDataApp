@@ -8,6 +8,7 @@ from model.enemy import Enemy
 from model.attack import Attack
 from model.effect import Effect
 from dialogs.attack import DialogAttack
+from widgets.tags import TagsWidget
 
 class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
     def __init__(self):
@@ -16,12 +17,9 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
         # Vars
         self.filename = None
         self.enemies = []
-        self.tag_checks = [
-            self.check_tag_common,
-            self.check_tag_medical,
-            self.check_tag_millitary,
-            self.check_tag_police
-        ]
+        # Create tags widget
+        self.tags_widget = TagsWidget(self, self.on_tag_changed)
+        self.container_tags.addWidget(self.tags_widget)
         # Connections
         self.button_enemy_new.clicked.connect(self.on_new_enemy_pressed)
         self.button_enemy_delete.clicked.connect(self.on_delete_enemy_pressed)
@@ -37,8 +35,6 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
         self.button_attack_add.clicked.connect(self.on_add_attack_pressed)
         self.button_attack_remove.clicked.connect(self.on_delete_attack_pressed)
         self.button_attack_edit.clicked.connect(self.on_edit_attack_pressed)
-        for check in self.tag_checks:
-            check.clicked.connect(self.on_tag_changed)
         # Init
         self.on_new_enemy_pressed()
 
@@ -84,11 +80,7 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
         self.spinner_enemy_ranged_acc.setValue(enemy.ranged_accuracy)
         self.spinner_enemy_level.setValue(enemy.level)
         self.set_combo(self.combo_difficulty, enemy.difficulty)
-        for check in self.tag_checks:
-            if check.text() in enemy.tags:
-                check.setChecked(True)
-            else:
-                check.setChecked(False)
+        self.tags_widget.set_tags(enemy.tags)
         self.table_attacks.setRowCount(0)
         for attack in enemy.attacks:
             self.add_enemy_attack(attack)
@@ -122,13 +114,8 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
         enemy_difficulty = self.combo_difficulty.currentText()
         self.get_selected_enemy().difficulty = enemy_difficulty
 
-    def on_tag_changed(self):
-        selected_tags = []
-        for check in self.tag_checks:
-            if check.isChecked():
-                selected_tags.append(check.text())
-        self.get_selected_enemy().tags = selected_tags
-        print(selected_tags)
+    def on_tag_changed(self, tags):
+        self.get_selected_enemy().tags = tags
 
 
     def add_enemy_attack(self, attack):

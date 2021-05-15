@@ -9,6 +9,7 @@ ui:
 	pyuic5 ui/tabitems.ui -o src/ui/ui_tabitems.py
 	pyuic5 ui/tabenemies.ui -o src/ui/ui_tabenemies.py
 	pyuic5 ui/tabevents.ui -o src/ui/ui_tabevents.py
+	pyuic5 ui/tags.ui -o src/ui/ui_tags.py
 
 
 windows: 

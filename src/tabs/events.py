@@ -8,6 +8,7 @@ from model.event import Event
 from model.option import Option
 from model.outcome import Outcome
 from dialogs.option import DialogOption
+from widgets.tags import TagsWidget
 
 class EventTab(QtWidgets.QWidget, Ui_EventTabContents):
     def __init__(self):
@@ -16,12 +17,9 @@ class EventTab(QtWidgets.QWidget, Ui_EventTabContents):
         # Vars
         self.filename = None
         self.events = []
-        self.tag_checks = [
-            self.check_tag_common,
-            self.check_tag_medical,
-            self.check_tag_millitary,
-            self.check_tag_police
-        ]
+        # Create tags widget
+        self.tags_widget = TagsWidget(self, self.on_tag_changed)
+        self.container_tags.addWidget(self.tags_widget)
         # Table
         header = self.table_event_options.horizontalHeader()       
         header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
@@ -38,8 +36,6 @@ class EventTab(QtWidgets.QWidget, Ui_EventTabContents):
         self.button_option_add.clicked.connect(self.on_new_option_clicked)
         self.button_option_remove.clicked.connect(self.on_remove_option_clicked)
         self.button_option_edit.clicked.connect(self.on_edit_option_clicked)
-        for check in self.tag_checks:
-            check.clicked.connect(self.on_tag_changed)
         # Init
         self.on_new_event_pressed()
 
@@ -98,21 +94,13 @@ class EventTab(QtWidgets.QWidget, Ui_EventTabContents):
         self.text_event_name.setText(event.name)
         self.text_event_text.setPlainText('\n'.join(event.text))
         self.spinner_event_chance.setValue(event.chance)
-        for check in self.tag_checks:
-            if check.text() in event.tags:
-                check.setChecked(True)
-            else:
-                check.setChecked(False)
+        self.tags_widget.set_tags(event.tags)
         self.table_event_options.setRowCount(0)
         for option in self.get_selected_event().options:
             self.add_option(option)
 
-    def on_tag_changed(self):
-        selected_tags = []
-        for check in self.tag_checks:
-            if check.isChecked():
-                selected_tags.append(check.text())
-        self.get_selected_event().tags = selected_tags
+    def on_tag_changed(self, tags):
+        self.get_selected_event().tags = tags
 
     def on_new_option_clicked(self):
         option_dialog = DialogOption(self)

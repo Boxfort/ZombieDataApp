@@ -25,7 +25,7 @@
         <x>0</x>
         <y>0</y>
         <width>722</width>
-        <height>1241</height>
+        <height>1189</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -216,39 +216,7 @@
         </widget>
        </item>
        <item>
-        <layout class="QGridLayout" name="gridLayout">
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <item row="0" column="0">
-          <widget class="QCheckBox" name="check_tag_common">
-           <property name="text">
-            <string>COMMON</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QCheckBox" name="check_tag_police">
-           <property name="text">
-            <string>POLICE</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QCheckBox" name="check_tag_medical">
-           <property name="text">
-            <string>MEDICAL</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QCheckBox" name="check_tag_millitary">
-           <property name="text">
-            <string>MILLITARY </string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <layout class="QVBoxLayout" name="container_tags"/>
        </item>
        <item>
         <widget class="QLabel" name="label_durability">

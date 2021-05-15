@@ -7,6 +7,7 @@ from PyQt5 import QtCore, QtWidgets, uic
 from model.item import Item
 from model.effect import Effect
 from dialogs.effect import DialogEffect
+from widgets.tags import TagsWidget
 
 class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
     def __init__(self):
@@ -15,12 +16,9 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         # Vars
         self.filename = None
         self.items = []
-        self.tag_checks = [
-            self.check_tag_common,
-            self.check_tag_medical,
-            self.check_tag_millitary,
-            self.check_tag_police
-        ]
+        # Create tags widget
+        self.tags_widget = TagsWidget(self, self.on_tag_changed)
+        self.container_tags.addWidget(self.tags_widget)
         # Table 
         header = self.table_effects.horizontalHeader()       
         header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
@@ -48,8 +46,6 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.text_item_combat_description.textChanged.connect(self.on_item_combat_description_changed)
         self.check_item_offensive.stateChanged.connect(self.on_item_offensive_changed)
         self.text_projectile_slug.textChanged.connect(self.on_projectile_slug_changed)
-        for check in self.tag_checks:
-            check.clicked.connect(self.on_tag_changed)
         # Init
         self.on_new_item_pressed()
         self.on_combo_item_type_changed()
@@ -123,12 +119,8 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         item_offensive = self.check_item_offensive.isChecked()
         self.get_selected_item().data["offensive"] = item_offensive
 
-    def on_tag_changed(self):
-        selected_tags = []
-        for check in self.tag_checks:
-            if check.isChecked():
-                selected_tags.append(check.text())
-        self.get_selected_item().tags = selected_tags
+    def on_tag_changed(self, tags):
+        self.get_selected_item().tags = tags
 
     def on_projectile_slug_changed(self):
         self.get_selected_item().data["projectile_slug"] = self.text_projectile_slug.text()
@@ -227,11 +219,7 @@ class ItemTab(QtWidgets.QWidget, Ui_ItemTabContents):
         self.check_item_offensive.setChecked(offensive)
         self.table_effects.setRowCount(0)
         self.text_projectile_slug.setText(item.data.get("projectile_slug", ""))
-        for check in self.tag_checks:
-            if check.text() in item.tags:
-                check.setChecked(True)
-            else:
-                check.setChecked(False)
+        self.tags_widget.set_tags(item.tags)
         for effect in item.data.get("effects", []):
             self.add_item_effect(effect)
         # Update type state
