@@ -209,6 +209,7 @@ class EnemyTab(QtWidgets.QWidget, Ui_EnemyTabContents):
                 attack.chance = attackData["chance"]
                 attack.damage = attackData["damage"]
                 attack.is_ranged = attackData["is_ranged"]
+                attack.projectile_slug = attackData["projectile_slug"]
                 for effectData in attackData["effects"]:
                     effect = Effect()
                     effect.chance = effectData["chance"]
